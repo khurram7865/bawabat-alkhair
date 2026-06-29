@@ -183,44 +183,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
   </div>
 </div>
 
-<!-- ═══ SUPABASE FIRST-TIME SETUP MODAL ═══ -->
-<div id="sb-setup-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:1rem">
-  <div style="background:#fff;border-radius:18px;width:100%;max-width:460px;box-shadow:0 8px 40px rgba(0,0,0,.18);overflow:hidden">
-    <div style="background:linear-gradient(135deg,#0d1f3c,#162b50);padding:1.5rem 1.5rem 1.2rem;color:#fff">
-      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
-        <div style="width:36px;height:36px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">☁</div>
-        <div>
-          <div style="font-size:16px;font-weight:800">Connect Cloud Backup</div>
-          <div style="font-size:11px;opacity:.6">Supabase — free, syncs across all devices</div>
-        </div>
-      </div>
-    </div>
-    <div style="padding:1.4rem 1.5rem">
-      <p style="font-size:13px;color:#6b7585;margin-bottom:1.1rem;line-height:1.6">
-        Connect once on this device and your data will automatically sync across all browsers and devices. 
-        <strong style="color:#0d1f3c">Other users just need to enter these same credentials on their device.</strong>
-      </p>
-      <div class="fld">
-        <label>Supabase Project URL</label>
-        <input type="text" id="setup-sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co">
-      </div>
-      <div class="fld">
-        <label>Anon / Public Key</label>
-        <input type="password" id="setup-sb-key" placeholder="eyJhbGciOiJIUzI1NiIs...">
-        <div style="font-size:11px;color:#9ea8b8;margin-top:4px">Found in Supabase → Settings → API</div>
-      </div>
-      <div id="setup-test-result" style="font-size:12px;padding:6px 10px;border-radius:6px;display:none;margin-bottom:.75rem"></div>
-    </div>
-    <div style="padding:0 1.5rem 1.4rem;display:flex;gap:.5rem;flex-wrap:wrap">
-      <button class="btn btn-gold" style="flex:1" onclick="setupTestAndSave()">Test &amp; Connect</button>
-      <button class="btn btn-ghost" onclick="setupSkip()" style="flex:1">Skip for now</button>
-    </div>
-    <div style="padding:.6rem 1.5rem .9rem;border-top:1px solid #f0f2f5;text-align:center">
-      <span style="font-size:11px;color:#9ea8b8">You can connect later via Settings → Cloud Sync</span>
-    </div>
-  </div>
-</div>
-
 <!-- ═══ APP ═══ -->
 <div id="app">
   <div class="shell">
@@ -446,16 +408,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
               <input type="text" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIs..." oninput="saveSyncConfig()">
             </div>
             <div style="background:var(--surf2);border-radius:var(--r);padding:.85rem 1rem;font-size:12px;color:var(--muted);line-height:1.6;margin-top:.5rem">
-              <strong style="color:var(--text)">Setup steps:</strong><br>
-              1. Go to <strong>supabase.com</strong> → New project → choose any region<br>
-              2. In SQL Editor, run the <strong>schema SQL</strong> provided (download below)<br>
-              3. Go to <strong>Settings → API</strong> → copy Project URL and anon key above<br>
-              4. Click <strong>Test Connection</strong> — then Sync Now
+              <strong style="color:var(--text)">How it works:</strong><br>
+              The Supabase URL and Key are <strong>embedded directly in the app file</strong> — set once by admin, works for everyone automatically.<br><br>
+              <strong style="color:var(--text)">To update keys:</strong> Paste new values above → Save → re-upload <code>index.html</code> to Cloudflare Pages.<br><br>
+              <strong style="color:var(--text)">First time setup:</strong> Download schema SQL → run in Supabase SQL Editor → paste URL &amp; Key above → Test → Sync Now → re-deploy.
             </div>
             <div style="display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap">
               <button class="btn btn-gold" onclick="testConnection()">Test Connection</button>
+              <button class="btn btn-navy" onclick="saveAndShowInstructions()">💾 Save Keys to File</button>
               <button class="btn btn-ghost" onclick="downloadSchema()">⬇ Download Schema SQL</button>
-              <button class="btn btn-ghost" onclick="syncAll()">⟳ Full Sync to Cloud</button>
+              <button class="btn btn-ghost" onclick="syncAll()">⟳ Sync to Cloud</button>
               <button class="btn btn-ghost" onclick="pullFromCloud()">⬇ Pull from Cloud</button>
             </div>
           </div>
@@ -789,15 +751,12 @@ function doLogin(){
 }
 
 async function postLoginSync(user){
-  const hasCfg = SB_URL && SB_KEY;
-  if(user.role==='admin' && !hasCfg){
-    // Admin on unconfigured browser → show setup modal
-    document.getElementById('sb-setup-overlay').style.display='flex';
-  } else if(hasCfg){
-    // Any user on configured browser → silently pull latest data from cloud
+  // If Supabase keys are configured (hardcoded or via admin override),
+  // silently pull latest data from cloud for ALL users on ALL browsers.
+  if(SB_URL && SB_KEY){
     silentPull();
   }
-  // No config + not admin → just use local data, no prompt
+  // If keys not set → app works offline with local data only
 }
 
 async function silentPull(){
@@ -1577,13 +1536,24 @@ function toast(msg,type=''){
 // ═══════════════════════════════════════
 
 // Config persisted in localStorage (not bawabat4_db — separate key)
-let SB_URL = '';
-let SB_KEY = '';
+// ── SUPABASE CONFIG — Set these once, redeploy ──
+// Fill in your Supabase Project URL and Anon Key below.
+// These are embedded in the file so ALL browsers use them automatically.
+const SB_URL_DEFAULT = '';  // e.g. 'https://xxxx.supabase.co'
+const SB_KEY_DEFAULT = '';  // e.g. 'eyJhbGci...'
+
+let SB_URL = SB_URL_DEFAULT;
+let SB_KEY = SB_KEY_DEFAULT;
 let syncInProgress = false;
 
 function loadSyncConfig(){
+  // Hardcoded values take priority. Admin can override via Cloud Sync page.
+  // Override stored in localStorage only as a fallback for key rotation.
   const cfg = localStorage.getItem('bawabat_sb_cfg');
-  if(cfg){ try{ const c=JSON.parse(cfg); SB_URL=c.url||''; SB_KEY=c.key||''; }catch(e){} }
+  if(cfg){ try{ const c=JSON.parse(cfg); if(c.url) SB_URL=c.url; if(c.key) SB_KEY=c.key; }catch(e){} }
+  // Always fall back to hardcoded if localStorage is empty
+  if(!SB_URL) SB_URL=SB_URL_DEFAULT;
+  if(!SB_KEY) SB_KEY=SB_KEY_DEFAULT;
   const u=document.getElementById('sb-url'); if(u) u.value=SB_URL;
   const k=document.getElementById('sb-key'); if(k) k.value=SB_KEY;
   updateSyncDot();
@@ -1729,6 +1699,34 @@ async function pullFromCloud(){
 let autoSyncTimer=null;
 
 // Download the schema SQL file
+function saveAndShowInstructions(){
+  const url=(document.getElementById('sb-url')||{}).value?.trim()||'';
+  const key=(document.getElementById('sb-key')||{}).value?.trim()||'';
+  if(!url||!key){ toast('Enter URL and Key first','err'); return; }
+  // Generate a new copy of this HTML file with the keys embedded
+  logSync('Generating updated file with keys embedded…','info');
+  let src = document.documentElement.outerHTML;
+  src = src.replace(
+    "const SB_URL_DEFAULT = '';  // e.g. 'https://xxxx.supabase.co'",
+    `const SB_URL_DEFAULT = '${url}';  // e.g. 'https://xxxx.supabase.co'`
+  );
+  src = src.replace(
+    "const SB_KEY_DEFAULT = '';  // e.g. 'eyJhbGci...'",
+    `const SB_KEY_DEFAULT = '${key}';  // e.g. 'eyJhbGci...'`
+  );
+  const blob=new Blob([src],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='index.html';
+  a.click();
+  logSync('✓ Downloaded index.html with keys embedded. Upload this to Cloudflare Pages to deploy.','ok');
+  toast('index.html downloaded — upload to Cloudflare Pages','ok');
+  // Also save to memory for this session
+  SB_URL=url; SB_KEY=key;
+  localStorage.setItem('bawabat_sb_cfg',JSON.stringify({url,key}));
+  updateSyncDot();
+}
+
 function downloadSchema(){
   const sql=`-- BAWABAT ALKHAIR — Supabase Schema
 -- Run this in your Supabase project → SQL Editor → New Query
@@ -1772,53 +1770,6 @@ insert into baw_users (id,name,username,password,role,status) values ('u1','Admi
   a.download='bawabat_schema.sql';
   a.click();
   logSync('Schema SQL downloaded','ok');
-}
-
-// ═══════════════════════════════════════
-// SETUP MODAL FUNCTIONS
-// ═══════════════════════════════════════
-async function setupTestAndSave(){
-  const url=(document.getElementById('setup-sb-url').value||'').trim();
-  const key=(document.getElementById('setup-sb-key').value||'').trim();
-  const res=document.getElementById('setup-test-result');
-  if(!url||!key){
-    res.style.display='block'; res.style.background='#fdeaea'; res.style.color='#b33232';
-    res.textContent='Please enter both Project URL and Anon Key.'; return;
-  }
-  res.style.display='block'; res.style.background='#e5f0fb'; res.style.color='#1a5faa';
-  res.textContent='Testing connection…';
-  try{
-    const r=await fetch(`${url}/rest/v1/baw_currencies?select=code&limit=1`,{
-      headers:{'apikey':key,'Authorization':'Bearer '+key}
-    });
-    if(r.ok){
-      // Save config
-      SB_URL=url; SB_KEY=key;
-      localStorage.setItem('bawabat_sb_cfg',JSON.stringify({url:SB_URL,key:SB_KEY}));
-      updateSyncDot();
-      // Update the Cloud Sync page inputs too
-      const u=document.getElementById('sb-url'); if(u) u.value=SB_URL;
-      const k=document.getElementById('sb-key'); if(k) k.value=SB_KEY;
-      res.style.background='#e6f5ee'; res.style.color='#1a7a4a';
-      res.textContent='✓ Connected! Syncing data now…';
-      setTimeout(()=>{
-        document.getElementById('sb-setup-overlay').style.display='none';
-        syncAll();
-      },1200);
-    } else {
-      const err=await r.text();
-      res.style.background='#fdeaea'; res.style.color='#b33232';
-      res.textContent='Connection failed: '+r.status+' — check your URL and key.';
-    }
-  }catch(e){
-    res.style.background='#fdeaea'; res.style.color='#b33232';
-    res.textContent='Error: '+e.message;
-  }
-}
-
-function setupSkip(){
-  document.getElementById('sb-setup-overlay').style.display='none';
-  toast('Cloud sync skipped — configure later in Settings → Cloud Sync');
 }
 
 // ═══════════════════════════════════════
