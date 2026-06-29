@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bawabat Alkhair — بوابة الخير</title>
+<style>
+:root {
+  --navy:#0d1f3c; --navy2:#162b50; --gold:#c8941e; --gold2:#e8aa38; --gold-pale:#fdf6e8;
+  --bg:#f3f5f8; --surf:#fff; --surf2:#f7f8fa; --border:rgba(0,0,0,.09); --border2:rgba(0,0,0,.16);
+  --text:#0d1f3c; --muted:#6b7585; --light:#9ea8b8;
+  --green:#1a7a4a; --green-bg:#e6f5ee; --red:#b33232; --red-bg:#fdeaea;
+  --blue:#1a5faa; --blue-bg:#e5f0fb; --purple:#6b3fa0; --purple-bg:#f0eafa;
+  --r:8px; --rlg:13px; --sh:0 1px 4px rgba(0,0,0,.07),0 0 0 .5px rgba(0,0,0,.05);
+  --sh-lg:0 6px 24px rgba(0,0,0,.11);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
+/* ── AUTH ── */
+#auth{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(150deg,var(--navy) 0%,var(--navy2) 100%)}
+.auth-box{background:var(--surf);border-radius:18px;padding:2.5rem;width:370px;box-shadow:var(--sh-lg)}
+.auth-logo{text-align:center;margin-bottom:2rem}
+.auth-icon{width:58px;height:58px;background:var(--gold);border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:.75rem}
+.auth-logo h1{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px}
+.auth-logo small{font-size:12px;color:var(--muted)}
+label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;color:var(--text);background:var(--surf);outline:none;transition:border .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,148,30,.12)}
+.fld{margin-bottom:.9rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 16px;border-radius:var(--r);font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold2)}
+.btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--navy2)}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text)}.btn-ghost:hover{background:var(--surf2)}
+.btn-red{background:var(--red-bg);color:var(--red);border:1px solid rgba(179,50,50,.18)}.btn-red:hover{background:#f8d5d5}
+.btn-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(26,122,74,.18)}
+.btn-block{width:100%}
+.err-msg{color:var(--red);font-size:12px;padding:.3rem 0}
+/* ── APP SHELL ── */
+#app{display:none}
+.shell{display:flex;min-height:100vh}
+/* ── SIDEBAR ── */
+.sb{width:210px;min-height:100vh;background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100}
+.sb-logo{padding:1.1rem 1.1rem .8rem;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px}
+.sb-icon{width:34px;height:34px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.sb-title{color:#fff;font-size:13px;font-weight:800;line-height:1.2}
+.sb-sub{color:rgba(255,255,255,.38);font-size:10px}
+.sb-nav{flex:1;padding:.6rem 0;overflow-y:auto}
+.sb-sec{padding:0 1rem;font-size:9.5px;font-weight:800;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;margin:.9rem 0 .35rem}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px .9rem;color:rgba(255,255,255,.58);cursor:pointer;border-radius:7px;margin:1px 7px;font-size:12px;font-weight:600;transition:all .15s}
+.sb-item svg{width:15px;height:15px;flex-shrink:0}
+.sb-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.88)}
+.sb-item.on{background:var(--gold);color:#fff}
+.sb-foot{padding:.7rem .9rem .9rem;border-top:1px solid rgba(255,255,255,.07)}
+.user-row{display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px;cursor:pointer}
+.user-row:hover{background:rgba(255,255,255,.07)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.uname{color:#fff;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.urole{color:rgba(255,255,255,.38);font-size:10px}
+/* ── MAIN ── */
+.main{margin-left:210px;padding:1.5rem 1.75rem;flex:1}
+.page{display:none}
+.page.on{display:block}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.4rem;flex-wrap:wrap;gap:.75rem}
+.ph h2{font-size:19px;font-weight:800;color:var(--navy)}
+.ph p{font-size:12px;color:var(--muted);margin-top:2px}
+.ph-actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+/* ── KPI ── */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.9rem;margin-bottom:1.4rem}
+.kpi{background:var(--surf);border-radius:var(--rlg);padding:1rem 1.1rem;border:1px solid var(--border);position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.kpi.k-green::before{background:var(--green)}
+.kpi.k-red::before{background:var(--red)}
+.kpi.k-blue::before{background:var(--blue)}
+.kpi-lbl{font-size:10px;font-weight:800;color:var(--light);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.kpi-val{font-size:21px;font-weight:800;color:var(--navy);line-height:1}
+.kpi.k-green .kpi-val{color:var(--green)}
+.kpi.k-red .kpi-val{color:var(--red)}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:3px}
+/* ── CARDS ── */
+.card{background:var(--surf);border-radius:var(--rlg);border:1px solid var(--border);box-shadow:var(--sh)}
+.card-hd{padding:.9rem 1.1rem .6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-hd h3{font-size:13px;font-weight:800;color:var(--navy)}
+.card-body{padding:1rem 1.1rem}
+/* ── LEDGER TABLE ── */
+.tbl-wrap{overflow-x:auto}
+.ledger{width:100%;border-collapse:collapse;font-size:12px}
+.ledger th{padding:6px 8px;text-align:left;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border2);background:var(--surf2);white-space:nowrap}
+.ledger th.r,.ledger td.r{text-align:right}
+.ledger th.c,.ledger td.c{text-align:center}
+.ledger td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.ledger tr:hover td{background:rgba(200,148,30,.04)}
+.ledger tr.tot td{border-top:2px solid var(--border2);font-weight:800;background:var(--surf2)}
+.ledger .desc-cell{max-width:280px;line-height:1.35}
+.ledger .vno{font-size:10px;color:var(--muted);font-family:monospace}
+.ledger .dt{white-space:nowrap;font-size:11px}
+.num{font-variant-numeric:tabular-nums}
+.amt-dr{color:var(--green);font-weight:700}
+.amt-cr{color:var(--red);font-weight:700}
+.bal-neg{color:var(--red);font-weight:700}
+.bal-pos{color:var(--green);font-weight:700}
+/* ── BADGES ── */
+.bdg{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+.bdg-green{background:var(--green-bg);color:var(--green)}
+.bdg-red{background:var(--red-bg);color:var(--red)}
+.bdg-blue{background:var(--blue-bg);color:var(--blue)}
+.bdg-gold{background:var(--gold-pale);color:var(--gold)}
+.bdg-purple{background:var(--purple-bg);color:var(--purple)}
+.bdg-gray{background:var(--surf2);color:var(--muted)}
+/* ── MODAL ── */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:center;justify-content:center;padding:1rem}
+.ov.on{display:flex}
+.modal{background:var(--surf);border-radius:var(--rlg);width:100%;max-width:520px;box-shadow:var(--sh-lg);max-height:94vh;overflow-y:auto}
+.mhd{padding:1.1rem 1.3rem .7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mhd h3{font-size:15px;font-weight:800}
+.mcl{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1;padding:3px;border-radius:6px}
+.mcl:hover{background:var(--surf2);color:var(--text)}
+.mbd{padding:1.1rem 1.3rem}
+.mft{padding:.7rem 1.3rem 1.1rem;display:flex;gap:.5rem;justify-content:flex-end;border-top:1px solid var(--border)}
+/* ── REPORT HEADER ── */
+.rpt-hd{text-align:center;padding:.75rem;border:2px solid var(--navy);border-bottom:none;background:#fff}
+.rpt-hd h1{font-size:18px;font-weight:900;text-decoration:underline;text-transform:uppercase;letter-spacing:.5px;color:var(--navy)}
+.rpt-hd p{font-size:11px;color:var(--muted);margin-top:3px}
+.rpt-wrap{border:2px solid var(--navy)}
+/* ── ACCOUNT CARDS ── */
+.ac-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem}
+.ac-card{background:var(--surf);border-radius:var(--rlg);padding:1.1rem;border:1px solid var(--border);cursor:pointer;transition:box-shadow .15s;position:relative;overflow:hidden}
+.ac-card:hover{box-shadow:var(--sh-lg)}
+.ac-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold)}
+.ac-card.t-exchange::after{background:var(--blue)}
+.ac-card.t-business::after{background:var(--purple)}
+.ac-card.t-bank::after{background:var(--green)}
+.ac-card.t-cash::after{background:var(--gold)}
+.ac-name{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:2px}
+.ac-type-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.ac-bal{font-size:22px;font-weight:900;color:var(--navy);margin-top:.7rem;line-height:1}
+.ac-cur{font-size:11px;color:var(--muted);margin-top:2px}
+/* ── FILTERS ── */
+.filters{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.9rem}
+.filters input,.filters select{width:auto;padding:6px 10px;font-size:12px}
+.srch{display:flex;align-items:center;gap:6px;background:var(--surf);border:1px solid var(--border2);border-radius:var(--r);padding:5px 9px}
+.srch input{border:none;outline:none;background:transparent;font-size:12px;width:180px}
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem}
+/* ── MISC ── */
+.divider{border:none;border-top:1px solid var(--border);margin:.7rem 0}
+.sec-ttl{font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:.6rem}
+.stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.stat-row:last-child{border-bottom:none}
+.text-sm{font-size:11px;color:var(--muted)}
+.tgl{padding:5px 11px;border-radius:6px;border:1px solid var(--border2);background:transparent;font-size:11px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tgl.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.empty{text-align:center;padding:2.5rem;color:var(--muted)}
+.toaster{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:.5rem}
+.toast{background:var(--navy);color:#fff;padding:.6rem 1rem;border-radius:var(--r);font-size:12px;font-weight:600;box-shadow:var(--sh-lg);animation:fadeIn .2s ease;border-left:3px solid var(--gold)}
+.toast.ok{border-left-color:var(--green)}
+.toast.err{border-left-color:var(--red)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.print-btn{display:flex;align-items:center;gap:5px}
+@media print{
+  .sb,.ph-actions,.filters,.mft,.btn,.toaster,.no-print{display:none!important}
+  .main{margin-left:0;padding:.5rem}
+  .rpt-wrap{border:2px solid #000}
+  .ledger th,.ledger td{padding:4px 6px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ AUTH ═══ -->
+<div id="auth">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-icon">🌙</div>
+      <h1>Bawabat Alkhair</h1>
+      <small>بوابة الخير — Ledger & Account Management</small>
+    </div>
+    <div class="fld"><label>Username</label><input id="li-u" type="text" placeholder="Username" autocomplete="username"></div>
+    <div class="fld"><label>Password</label><input id="li-p" type="password" placeholder="Password" autocomplete="current-password"></div>
+    <div id="li-err" class="err-msg" style="display:none"></div>
+    <button class="btn btn-gold btn-block" style="margin-top:.4rem" onclick="doLogin()">Sign In →</button>
+    <p class="text-sm" style="text-align:center;margin-top:.9rem">Default: admin / admin123</p>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="app">
+  <div class="shell">
+
+    <!-- SIDEBAR -->
+    <div class="sb">
+      <div class="sb-logo">
+        <div class="sb-icon">🌙</div>
+        <div><div class="sb-title">Bawabat Alkhair</div><div class="sb-sub">بوابة الخير</div></div>
+      </div>
+      <nav class="sb-nav">
+        <div class="sb-sec">Overview</div>
+        <div class="sb-item on" data-page="dashboard" onclick="nav('dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
+        </div>
+        <div class="sb-sec">Accounts</div>
+        <div class="sb-item" data-page="accounts" onclick="nav('accounts')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accounts
+        </div>
+        <div class="sb-item" data-page="ledger" onclick="nav('ledger')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Ledger Entries
+        </div>
+        <div class="sb-item" data-page="report" onclick="nav('report')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>Statement Report
+        </div>
+        <div class="sb-sec">Finance</div>
+        <div class="sb-item" data-page="transfers" onclick="nav('transfers')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>Transfers
+        </div>
+        <div class="sb-item" data-page="expenses" onclick="nav('expenses')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Expenses
+        </div>
+        <div class="sb-sec">Settings</div>
+        <div class="sb-item" data-page="currencies" onclick="nav('currencies')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8m4-14v2m0 14v2"/></svg>Currencies
+        </div>
+        <div class="sb-item" id="nav-users" data-page="users" onclick="nav('users')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Users
+        </div>
+        <div class="sb-item" data-page="sync" onclick="nav('sync')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Cloud Sync
+          <span id="sync-dot" style="width:7px;height:7px;border-radius:50%;background:var(--muted);margin-left:auto;flex-shrink:0"></span>
+        </div>
+      </nav>
+      <div class="sb-foot">
+        <div class="user-row" onclick="doLogout()">
+          <div class="av" id="sb-av">A</div>
+          <div style="flex:1;min-width:0"><div class="uname" id="sb-nm">Admin</div><div class="urole" id="sb-role">Administrator</div></div>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="page on" id="page-dashboard">
+        <div class="ph">
+          <div><h2>Dashboard</h2><p id="dash-date"></p></div>
+          <div class="ph-actions">
+            <button class="btn btn-gold" onclick="openEntry()">+ New Entry</button>
+            <button class="btn btn-navy" onclick="nav('report')">📊 Statement</button>
+          </div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><h3>Recent Entries</h3><span class="text-sm" id="recent-count"></span></div>
+            <div class="card-body" id="recent-entries"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><h3>Account Balances</h3></div>
+            <div class="card-body" id="dash-balances"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ACCOUNTS ── -->
+      <div class="page" id="page-accounts">
+        <div class="ph">
+          <div><h2>Accounts</h2><p>Manage all ledger accounts</p></div>
+          <button class="btn btn-gold" onclick="openModal('mo-account')">+ Add Account</button>
+        </div>
+        <div class="ac-grid" id="ac-grid"></div>
+      </div>
+
+      <!-- ── LEDGER ENTRIES ── -->
+      <div class="page" id="page-ledger">
+        <div class="ph">
+          <div><h2>Ledger Entries</h2><p>All debit &amp; credit transactions</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-gold" onclick="openEntry()">+ New Entry</button>
+            <button class="btn btn-ghost" onclick="nav('report')">View Statement</button>
+          </div>
+        </div>
+        <div class="filters">
+          <div class="srch"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="le-srch" placeholder="Search description / V.No…" oninput="renderLedger()"></div>
+          <select id="le-ac" onchange="renderLedger()"><option value="">All Accounts</option></select>
+          <select id="le-type" onchange="renderLedger()"><option value="">All Types</option><option value="debit">Debit</option><option value="credit">Credit</option></select>
+          <input type="date" id="le-from" onchange="renderLedger()" style="width:auto">
+          <input type="date" id="le-to" onchange="renderLedger()" style="width:auto">
+        </div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table class="ledger" id="le-table">
+              <thead><tr>
+                <th>Date &amp; Time</th><th>V. No</th><th class="desc-cell">Description</th>
+                <th>Account</th><th class="r">Foreign Amt</th><th class="r">Rate</th>
+                <th class="r" style="color:var(--green)">Debit (AED)</th><th class="r" style="color:var(--red)">Credit (AED)</th><th class="r">Balance</th><th></th>
+              </tr></thead>
+              <tbody id="le-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STATEMENT REPORT ── -->
+      <div class="page" id="page-report">
+        <div class="ph no-print">
+          <div><h2>Statement Report</h2><p>Printable ledger statement</p></div>
+          <div class="ph-actions">
+            <select id="rpt-ac" onchange="renderReport()" style="width:200px"><option value="">All Accounts</option></select>
+            <input type="date" id="rpt-from" onchange="renderReport()" style="width:auto">
+            <input type="date" id="rpt-to" onchange="renderReport()" style="width:auto">
+            <button class="btn btn-gold print-btn" onclick="window.print()">🖨️ Print</button>
+          </div>
+        </div>
+        <div id="rpt-container"></div>
+      </div>
+
+      <!-- ── TRANSFERS ── -->
+      <div class="page" id="page-transfers">
+        <div class="ph">
+          <div><h2>Account Transfers</h2><p>Move funds between accounts</p></div>
+          <button class="btn btn-gold" onclick="openModal('mo-transfer')">+ New Transfer</button>
+        </div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table class="ledger">
+              <thead><tr><th>Date</th><th>From Account</th><th>To Account</th><th class="r">Amount Sent</th><th class="r">Amount Received</th><th class="r">Rate</th><th>Reference</th><th></th></tr></thead>
+              <tbody id="tr-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EXPENSES ── -->
+      <div class="page" id="page-expenses">
+        <div class="ph">
+          <div><h2>Business Expenses</h2><p>Expenses paid on behalf of other businesses</p></div>
+          <button class="btn btn-gold" onclick="openModal('mo-expense')">+ Add Expense</button>
+        </div>
+        <div class="filters">
+          <select id="ex-biz" onchange="renderExpenses()"><option value="">All Businesses</option></select>
+          <select id="ex-cat" onchange="renderExpenses()"><option value="">All Categories</option><option>Office</option><option>Travel</option><option>Marketing</option><option>Utilities</option><option>Salaries</option><option>Other</option></select>
+          <select id="ex-st" onchange="renderExpenses()"><option value="">All Statuses</option><option value="pending">Pending</option><option value="reimbursed">Reimbursed</option><option value="written-off">Written Off</option></select>
+        </div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table class="ledger">
+              <thead><tr><th>Date</th><th>Description</th><th>Business</th><th>Category</th><th>Paid From</th><th class="r">Amount</th><th class="r">AED Equiv.</th><th>Status</th><th></th></tr></thead>
+              <tbody id="ex-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CURRENCIES ── -->
+      <div class="page" id="page-currencies">
+        <div class="ph">
+          <div><h2>Currencies &amp; Rates</h2><p>Base currency: AED د.إ</p></div>
+          <button class="btn btn-gold" onclick="openModal('mo-currency')">+ Add Currency</button>
+        </div>
+        <div class="card" style="max-width:560px">
+          <div class="tbl-wrap">
+            <table class="ledger">
+              <thead><tr><th>Name</th><th>Code</th><th>Symbol</th><th class="r">Rate (1 AED = ?)</th><th>Updated</th><th></th></tr></thead>
+              <tbody id="cur-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── USERS ── -->
+      <div class="page" id="page-users">
+        <div class="ph">
+          <div><h2>User Management</h2><p>Control access and roles</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost" onclick="resetAllData()" style="color:var(--red);border-color:rgba(179,50,50,.3)">🗑 Reset All Data</button>
+            <button class="btn btn-gold" onclick="openModal('mo-user')">+ Add User</button>
+          </div>
+        </div>
+        <div class="card" style="max-width:620px">
+          <div class="tbl-wrap">
+            <table class="ledger">
+              <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Last Login</th><th></th></tr></thead>
+              <tbody id="usr-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CLOUD SYNC ── -->
+      <div class="page" id="page-sync">
+        <div class="ph">
+          <div><h2>Cloud Sync — Supabase</h2><p>Connect to Supabase for real-time backup across all devices</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-gold" onclick="syncAll()" id="btn-sync-now">⟳ Sync Now</button>
+          </div>
+        </div>
+
+        <!-- Connection config -->
+        <div class="card" style="max-width:620px;margin-bottom:1.2rem" id="sync-config-card">
+          <div class="card-hd"><h3>Supabase Connection</h3><span id="sync-status-badge" class="bdg bdg-gray">Not Connected</span></div>
+          <div class="card-body">
+            <div class="fld">
+              <label>Project URL <span style="font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">— from Supabase → Settings → API</span></label>
+              <input type="text" id="sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co" oninput="saveSyncConfig()">
+            </div>
+            <div class="fld">
+              <label>Anon / Public Key</label>
+              <input type="text" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIs..." oninput="saveSyncConfig()">
+            </div>
+            <div style="background:var(--surf2);border-radius:var(--r);padding:.85rem 1rem;font-size:12px;color:var(--muted);line-height:1.6;margin-top:.5rem">
+              <strong style="color:var(--text)">Setup steps:</strong><br>
+              1. Go to <strong>supabase.com</strong> → New project → choose any region<br>
+              2. In SQL Editor, run the <strong>schema SQL</strong> provided (download below)<br>
+              3. Go to <strong>Settings → API</strong> → copy Project URL and anon key above<br>
+              4. Click <strong>Test Connection</strong> — then Sync Now
+            </div>
+            <div style="display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap">
+              <button class="btn btn-gold" onclick="testConnection()">Test Connection</button>
+              <button class="btn btn-ghost" onclick="downloadSchema()">⬇ Download Schema SQL</button>
+              <button class="btn btn-ghost" onclick="syncAll()">⟳ Full Sync to Cloud</button>
+              <button class="btn btn-ghost" onclick="pullFromCloud()">⬇ Pull from Cloud</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sync Status -->
+        <div class="card" style="max-width:620px">
+          <div class="card-hd"><h3>Sync Log</h3><button class="btn btn-ghost" style="padding:3px 8px;font-size:11px" onclick="document.getElementById('sync-log').innerHTML=''">Clear</button></div>
+          <div class="card-body" id="sync-log" style="font-size:12px;font-family:monospace;max-height:300px;overflow-y:auto;line-height:1.8">
+            <span style="color:var(--muted)">— No sync activity yet —</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div>
+</div><!-- /app -->
+
+<!-- TOASTER -->
+<div class="toaster" id="toaster"></div>
+
+<!-- ══════════════ MODALS ══════════════ -->
+
+<!-- ENTRY MODAL -->
+<div class="ov" id="mo-entry">
+  <div class="modal" style="max-width:580px">
+    <div class="mhd"><h3 id="entry-ttl">New Ledger Entry</h3><button class="mcl" onclick="closeModal('mo-entry')">×</button></div>
+    <div class="mbd">
+      <input type="hidden" id="en-id">
+      <div class="g2">
+        <div class="fld"><label>Date &amp; Time</label><input type="datetime-local" id="en-dt"></div>
+        <div class="fld"><label>Voucher No</label><input type="text" id="en-vno" placeholder="e.g. DE-0098112"></div>
+      </div>
+      <div class="fld"><label>Account</label><select id="en-ac" onchange="autoDesc()"></select></div>
+      <div class="fld"><label>Description <span style="font-size:10px;font-weight:400;color:var(--gold);text-transform:none;letter-spacing:0">✦ auto-fills from fields above</span></label><textarea id="en-desc" rows="2" placeholder="Fill amount & currency above to auto-generate..." oninput="_lastAutoDesc=''"></textarea></div>
+      <div class="g3">
+        <div class="fld"><label>Foreign Amount</label><input type="number" id="en-famount" placeholder="0.00" step="0.01" oninput="calcAED()"></div>
+        <div class="fld"><label>Currency</label><select id="en-cur" onchange="pickCurrency();calcAED();autoDesc()"></select></div>
+        <div class="fld"><label>Rate (to AED)</label><input type="number" id="en-rate" placeholder="1.0000" step="0.0001" oninput="calcAED();autoDesc()"></div>
+      </div>
+      <div class="g2">
+        <div class="fld">
+          <label>Entry Type</label>
+          <div style="display:flex;gap:.5rem;margin-top:4px">
+            <button class="tgl on" id="tgl-dr" onclick="setEntryType('debit')">↑ Debit</button>
+            <button class="tgl" id="tgl-cr" onclick="setEntryType('credit')">↓ Credit</button>
+          </div>
+          <input type="hidden" id="en-type" value="debit">
+        </div>
+        <div class="fld"><label>AED Amount (auto)</label><input type="number" id="en-aed" placeholder="0.00" step="0.01" oninput="autoDesc()" style="background:var(--surf2)"></div>
+      </div>
+      <div class="fld"><label>Notes / Reference</label><input type="text" id="en-ref" placeholder="Optional reference or TKN number"></div>
+
+    </div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-entry')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveEntry()">Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT MODAL -->
+<div class="ov" id="mo-account">
+  <div class="modal" style="max-width:460px">
+    <div class="mhd"><h3 id="ac-ttl">Add Account</h3><button class="mcl" onclick="closeModal('mo-account')">×</button></div>
+    <div class="mbd">
+      <input type="hidden" id="ac-id">
+      <div class="fld"><label>Account Name</label><input type="text" id="ac-name" placeholder="e.g. Moosa Greece"></div>
+      <div class="g2">
+        <div class="fld"><label>Account Type</label>
+          <select id="ac-type">
+            <option value="exchange">Currency Exchange</option>
+            <option value="business">Business Account</option>
+            <option value="bank">Bank Account</option>
+            <option value="cash">Cash / Wallet</option>
+            <option value="ticketing">Ticketing</option>
+            <option value="customer">Customer Account</option>
+          </select>
+        </div>
+        <div class="fld"><label>Base Currency</label><select id="ac-cur"></select></div>
+      </div>
+      <div class="fld"><label>Opening Balance (AED)</label><input type="number" id="ac-bal" placeholder="0.00" step="0.01"></div>
+      <div class="fld"><label>Description / Notes</label><textarea id="ac-notes" rows="2" placeholder="Optional"></textarea></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-account')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveAccount()">Save Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSFER MODAL -->
+<div class="ov" id="mo-transfer">
+  <div class="modal" style="max-width:480px">
+    <div class="mhd"><h3>Account Transfer</h3><button class="mcl" onclick="closeModal('mo-transfer')">×</button></div>
+    <div class="mbd">
+      <input type="hidden" id="tr-id">
+      <div class="g2">
+        <div class="fld"><label>From Account</label><select id="tr-from"></select></div>
+        <div class="fld"><label>To Account</label><select id="tr-to"></select></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Amount Sent</label><input type="number" id="tr-af" placeholder="0.00" step="0.01" oninput="calcTrRate()"></div>
+        <div class="fld"><label>Amount Received</label><input type="number" id="tr-at" placeholder="0.00" step="0.01" oninput="calcTrRate()"></div>
+      </div>
+      <div class="fld"><label>Exchange Rate</label><input type="number" id="tr-rate" readonly style="background:var(--surf2);color:var(--muted)"></div>
+      <div class="g2">
+        <div class="fld"><label>Date</label><input type="date" id="tr-dt"></div>
+        <div class="fld"><label>Reference</label><input type="text" id="tr-ref" placeholder="Optional"></div>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-transfer')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveTransfer()">Save Transfer</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPENSE MODAL -->
+<div class="ov" id="mo-expense">
+  <div class="modal">
+    <div class="mhd"><h3 id="ex-ttl">Add Expense</h3><button class="mcl" onclick="closeModal('mo-expense')">×</button></div>
+    <div class="mbd">
+      <input type="hidden" id="ex-id">
+      <div class="fld"><label>Description</label><input type="text" id="ex-desc" placeholder="Expense description"></div>
+      <div class="fld"><label>Business Name</label><input type="text" id="ex-biz-val" placeholder="Business this is for" list="biz-dl"><datalist id="biz-dl"></datalist></div>
+      <div class="g2">
+        <div class="fld"><label>Category</label><select id="ex-cat-val"><option>Office</option><option>Travel</option><option>Marketing</option><option>Utilities</option><option>Salaries</option><option>Other</option></select></div>
+        <div class="fld"><label>Paid From Account</label><select id="ex-ac"></select></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Amount</label><input type="number" id="ex-amt" placeholder="0.00" step="0.01"></div>
+        <div class="fld"><label>Currency</label><select id="ex-cur"></select></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label>Date</label><input type="date" id="ex-dt"></div>
+        <div class="fld"><label>Status</label><select id="ex-st-val"><option value="pending">Pending Reimbursement</option><option value="reimbursed">Reimbursed</option><option value="written-off">Written Off</option></select></div>
+      </div>
+      <div class="fld"><label>Notes</label><textarea id="ex-notes" rows="2"></textarea></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-expense')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveExpense()">Save Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- CURRENCY MODAL -->
+<div class="ov" id="mo-currency">
+  <div class="modal" style="max-width:400px">
+    <div class="mhd"><h3 id="cur-ttl">Add Currency</h3><button class="mcl" onclick="closeModal('mo-currency')">×</button></div>
+    <div class="mbd">
+      <input type="hidden" id="cur-id">
+      <div class="fld"><label>Currency Name</label><input type="text" id="cur-name" placeholder="e.g. Indian Rupee"></div>
+      <div class="g2">
+        <div class="fld"><label>ISO Code</label><input type="text" id="cur-code" placeholder="INR" maxlength="5" style="text-transform:uppercase"></div>
+        <div class="fld"><label>Symbol</label><input type="text" id="cur-sym" placeholder="₹" maxlength="5"></div>
+      </div>
+      <div class="fld"><label>Rate: 1 AED = ? units</label><input type="number" id="cur-rate" placeholder="e.g. 22.5" step="0.0001"></div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-currency')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveCurrency()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER MODAL -->
+<div class="ov" id="mo-user">
+  <div class="modal" style="max-width:420px">
+    <div class="mhd"><h3 id="usr-ttl">Add User</h3><button class="mcl" onclick="closeModal('mo-user')">×</button></div>
+    <div class="mbd">
+      <input type="hidden" id="usr-id">
+      <div class="fld"><label>Full Name</label><input type="text" id="usr-name" placeholder="Full name"></div>
+      <div class="g2">
+        <div class="fld"><label>Username</label><input type="text" id="usr-un" placeholder="username"></div>
+        <div class="fld"><label>Password</label><input type="password" id="usr-pw" placeholder="Password"></div>
+      </div>
+      <div class="fld"><label>Role</label>
+        <select id="usr-role"><option value="admin">Admin (Full Access)</option><option value="accountant">Accountant</option><option value="viewer">Viewer</option></select>
+      </div>
+      <div class="fld"><label>Status</label>
+        <select id="usr-st"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-user')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveUser()">Save User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT DETAIL MODAL -->
+<div class="ov" id="mo-ac-detail">
+  <div class="modal" style="max-width:560px">
+    <div class="mhd"><h3 id="acd-ttl">Account Detail</h3><button class="mcl" onclick="closeModal('mo-ac-detail')">×</button></div>
+    <div class="mbd" id="acd-body"></div>
+    <div class="mft">
+      <button class="btn btn-ghost" onclick="closeModal('mo-ac-detail')">Close</button>
+      <button class="btn btn-red" id="acd-del">Delete</button>
+      <button class="btn btn-ghost" id="acd-edit">Edit Account</button>
+      <button class="btn btn-gold" id="acd-add-entry">+ Add Entry</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ═══════════════════════════════════════
+// SEED DATA
+// KEY FIX: balances are COMPUTED from entries, not stored
+// account.initBal = opening balance only
+// ═══════════════════════════════════════
+const SEED = {
+  users:[{id:'u1',name:'Admin',username:'admin',password:'admin123',role:'admin',status:'active',lastLogin:null}],
+  currencies:[
+    {id:'c0',name:'UAE Dirham',code:'AED',symbol:'د.إ',rate:1,updatedAt:'2026-01-01'},
+    {id:'c1',name:'Indian Rupee',code:'INR',symbol:'₹',rate:22.5,updatedAt:'2026-01-01'},
+    {id:'c2',name:'Euro',code:'EUR',symbol:'€',rate:0.253,updatedAt:'2026-01-01'},
+    {id:'c3',name:'US Dollar',code:'USD',symbol:'$',rate:0.272,updatedAt:'2026-01-01'},
+    {id:'c4',name:'Pakistani Rupee',code:'PKR',symbol:'₨',rate:75.8,updatedAt:'2026-01-01'},
+    {id:'c5',name:'British Pound',code:'GBP',symbol:'£',rate:0.217,updatedAt:'2026-01-01'},
+    {id:'c6',name:'Saudi Riyal',code:'SAR',symbol:'﷼',rate:1.02,updatedAt:'2026-01-01'},
+    {id:'c7',name:'Nepali Rupee',code:'NPR',symbol:'रू',rate:36.0,updatedAt:'2026-01-01'}
+  ],
+  accounts:[],
+  entries:[],
+  transfers:[],
+  expenses:[]
+};
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let DB = {};
+let CU = null;
+
+function loadDB(){
+  const s = localStorage.getItem('bawabat4_db');
+  if(s){ try{ DB=JSON.parse(s); return; }catch(e){} }
+  DB = JSON.parse(JSON.stringify(SEED));
+  saveDB();
+}
+function resetAllData(){
+  if(!confirm('⚠️ This will DELETE all entries, accounts and data. This cannot be undone. Are you sure?'))return;
+  if(!confirm('Final confirmation: wipe all data and start fresh?'))return;
+  localStorage.removeItem('bawabat4_db');
+  DB=JSON.parse(JSON.stringify(SEED));
+  saveDB(); renderAll();
+  toast('All data cleared — starting fresh','ok');
+}
+function saveDB(){ localStorage.setItem('bawabat4_db',JSON.stringify(DB)); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function fmtDT(s){
+  if(!s)return'—';
+  const d=new Date(s.replace(' ','T'));
+  if(isNaN(d))return s;
+  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+function fmtD(s){
+  if(!s)return'—';
+  const d=new Date(s+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+}
+function todayDT(){ return new Date().toISOString().slice(0,16); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+// Format number with 2 decimal places
+function fmtN(n,dec=2){
+  if(n==null||n===undefined||isNaN(n))return'—';
+  return Number(n).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+}
+// Always prefix AED
+function fmtAED(n){
+  if(n==null||isNaN(n))return'AED 0.00';
+  return'AED '+fmtN(n);
+}
+function getCur(code){ return DB.currencies.find(c=>c.code===code)||{symbol:code,rate:1,code}; }
+// Convert to AED using rate stored in currencies table
+function toAED(amt,code){
+  if(code==='AED')return amt;
+  const c=getCur(code);
+  return amt/(c.rate||1);
+}
+function getAccount(id){ return DB.accounts.find(a=>a.id===id)||{name:'Unknown',currency:'AED',initBal:0}; }
+
+// Compute balance purely from this account's own entries
+function computeBalance(acId){
+  const ac=DB.accounts.find(a=>a.id===acId);
+  if(!ac)return 0;
+  let bal=(ac.initBal||0);
+  DB.entries.forEach(e=>{
+    if(e.acId===acId){
+      bal += e.type==='credit' ? e.aed : -e.aed;
+    }
+  });
+  return bal;
+}
+
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
+function doLogin(){
+  const u=document.getElementById('li-u').value.trim();
+  const p=document.getElementById('li-p').value;
+  const user=DB.users.find(x=>x.username===u&&x.password===p&&x.status==='active');
+  const err=document.getElementById('li-err');
+  if(!user){ err.textContent='Invalid username or password.'; err.style.display='block'; return; }
+  err.style.display='none';
+  CU=user; user.lastLogin=new Date().toISOString(); saveDB();
+  document.getElementById('auth').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('sb-av').textContent=user.name[0].toUpperCase();
+  document.getElementById('sb-nm').textContent=user.name;
+  document.getElementById('sb-role').textContent=user.role==='admin'?'Administrator':user.role==='accountant'?'Accountant':'Viewer';
+  document.getElementById('nav-users').style.display=user.role==='admin'?'flex':'none';
+  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  renderAll();
+}
+function doLogout(){ CU=null; document.getElementById('auth').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('li-p').value=''; }
+document.addEventListener('keypress',e=>{ if(e.key==='Enter'&&document.getElementById('auth').style.display!=='none') doLogin(); });
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function nav(pg){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(n=>n.classList.remove('on'));
+  const pp=document.getElementById('page-'+pg); if(pp) pp.classList.add('on');
+  document.querySelectorAll(`.sb-item[data-page="${pg}"]`).forEach(n=>n.classList.add('on'));
+  renderAll();
+}
+
+// ═══════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════
+function renderAll(){
+  populateSelects();
+  renderDash();
+  renderAccounts();
+  renderLedger();
+  renderReport();
+  renderTransfers();
+  renderExpenses();
+  renderCurrencies();
+  renderUsers();
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD — always computes live from entries
+// ═══════════════════════════════════════
+function renderDash(){
+  // Compute total balance live across ALL accounts
+  const totalBal = DB.accounts.reduce((s,a)=>s+computeBalance(a.id),0);
+  const mon = new Date().toISOString().slice(0,7);
+  const monEntries = DB.entries.filter(e=>e.dt&&e.dt.startsWith(mon));
+  const monDr = monEntries.filter(e=>e.type==='debit').reduce((s,e)=>s+e.aed,0);
+  const monCr = monEntries.filter(e=>e.type==='credit').reduce((s,e)=>s+e.aed,0);
+  const pendingExp = DB.expenses.filter(e=>e.status==='pending').reduce((s,e)=>s+toAED(e.amt,e.cur),0);
+
+  document.getElementById('kpis').innerHTML=`
+    <div class="kpi"><div class="kpi-lbl">Net Balance</div><div class="kpi-val">${fmtAED(totalBal)}</div><div class="kpi-sub">${DB.accounts.length} accounts</div></div>
+    <div class="kpi k-green"><div class="kpi-lbl">Debits This Month</div><div class="kpi-val">${fmtAED(monDr)}</div><div class="kpi-sub">Received / settled</div></div>
+    <div class="kpi k-red"><div class="kpi-lbl">Credits This Month</div><div class="kpi-val">${fmtAED(monCr)}</div><div class="kpi-sub">Sent out / receivable</div></div>
+    <div class="kpi k-blue"><div class="kpi-lbl">Pending Expenses</div><div class="kpi-val">${fmtAED(pendingExp)}</div><div class="kpi-sub">Awaiting reimbursement</div></div>`;
+
+  const recent=[...DB.entries].sort((a,b)=>b.dt.localeCompare(a.dt)).slice(0,8);
+  document.getElementById('recent-count').textContent=DB.entries.length+' total';
+  document.getElementById('recent-entries').innerHTML=recent.length?recent.map(e=>{
+    const ac=getAccount(e.acId);
+    return`<div class="stat-row">
+      <div>
+        <div style="font-weight:700;font-size:12px">${e.desc}</div>
+        <div class="text-sm">${ac.name} • ${e.vno||'—'} • ${(e.dt||'').slice(0,10)}</div>
+      </div>
+      <div class="num ${e.type==='credit'?'amt-cr':'amt-dr'}">${e.type==='credit'?'('+fmtAED(e.aed)+')':'+'+fmtAED(e.aed)}</div>
+    </div>`;
+  }).join(''):'<div class="empty">No entries yet</div>';
+
+  // Live balances computed from entries
+  document.getElementById('dash-balances').innerHTML=DB.accounts.length?DB.accounts.map(a=>{
+    const bal=computeBalance(a.id);
+    return`<div class="stat-row">
+      <div><div style="font-weight:700;font-size:12px">${a.name}</div><div class="text-sm">${a.type} • Opening: ${fmtAED(a.initBal||0)}</div></div>
+      <div style="text-align:right">
+        <div class="num ${bal>0?'bal-neg':bal<0?'bal-pos':''}" style="font-weight:800">${bal>0?'('+fmtAED(bal)+')':bal<0?fmtAED(Math.abs(bal)):fmtAED(0)}</div>
+      </div>
+    </div>`;
+  }).join(''):'<div style="padding:1rem;text-align:center;color:var(--muted);font-size:12px">No accounts yet — add accounts first</div>';
+}
+
+// ═══════════════════════════════════════
+// ACCOUNTS — balance from computeBalance
+// ═══════════════════════════════════════
+function renderAccounts(){
+  const g=document.getElementById('ac-grid'); if(!g)return;
+  const typeColors={exchange:'t-exchange',business:'t-business',bank:'t-bank',cash:'t-cash',ticketing:'t-cash',customer:'t-exchange'};
+  // Show empty state hint if no accounts yet
+  const emptyHint = DB.accounts.length===0 ? `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--muted);font-size:13px"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:.3;display:block;margin:0 auto .75rem"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>No accounts yet. Add your first account to get started.</div>` : '';
+  g.innerHTML=emptyHint+DB.accounts.map(a=>{
+    const bal=computeBalance(a.id);
+    // bal>0 = receivable from exchange (red brackets), bal<0 = payable to exchange (green)
+    const balDisplay=bal>0?`<span class="bal-neg">(${fmtAED(bal)})</span>`:bal<0?`<span class="bal-pos">${fmtAED(Math.abs(bal))}</span>`:`<span style="color:var(--muted)">${fmtAED(0)}</span>`;
+    return`<div class="ac-card ${typeColors[a.type]||''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;cursor:pointer" onclick="openAccountDetail('${a.id}')">
+        <div><div class="ac-name">${a.name}</div><div class="ac-type-lbl">${a.type}</div></div>
+        <span class="bdg bdg-gold">${a.currency}</span>
+      </div>
+      <div class="ac-bal" style="cursor:pointer" onclick="openAccountDetail('${a.id}')">${balDisplay}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;margin-bottom:.6rem">Opening: ${fmtAED(a.initBal||0)}${a.notes?' | '+a.notes:''}</div>
+      <div style="display:flex;gap:.4rem;border-top:1px solid var(--border);padding-top:.6rem;margin-top:auto">
+        <button class="btn btn-gold" style="flex:1;padding:5px 0;font-size:11px" onclick="event.stopPropagation();openEntry('${a.id}')">+ Add Entry</button>
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11px" onclick="event.stopPropagation();filterLedgerByAccount('${a.id}')">📋 Ledger</button>
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11px" onclick="event.stopPropagation();openAccountDetail('${a.id}')">⋯</button>
+      </div>
+    </div>`;
+  }).join('')+
+  `<div class="ac-card" style="border:2px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:var(--muted);cursor:pointer;min-height:110px" onclick="resetAccountModal();openModal('mo-account')">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    <span style="font-size:12px;font-weight:700">Add Account</span></div>`;
+}
+
+function openAccountDetail(id){
+  const a=DB.accounts.find(x=>x.id===id); if(!a)return;
+  document.getElementById('acd-ttl').textContent=a.name;
+  // Entries where this is primary OR linked account
+  const primaryEnts=DB.entries.filter(e=>e.acId===id).sort((x,y)=>y.dt.localeCompare(x.dt));
+
+  const totDr=primaryEnts.filter(e=>e.type==='debit').reduce((s,e)=>s+e.aed,0);
+  const totCr=primaryEnts.filter(e=>e.type==='credit').reduce((s,e)=>s+e.aed,0);
+
+  const bal=computeBalance(id);
+
+  // Balance display: negative = receivable (red brackets), positive = we owe them
+  // bal>0 = credits > debits = we gave more = exchange owes us = RECEIVABLE (red brackets)
+  // bal<0 = debits > credits = they paid us more = we owe them = PAYABLE (green)
+  const balStr = bal>0
+    ? `<span class="bal-neg">(${fmtAED(bal)})</span> <span class="text-sm" style="color:var(--red)">↑ Receivable from Exchange</span>`
+    : bal<0 ? `<span class="bal-pos">${fmtAED(Math.abs(bal))}</span> <span class="text-sm" style="color:var(--green)">↓ Payable to Exchange</span>`
+    : `<span style="color:var(--muted)">${fmtAED(0)}</span>`;
+  const typeColors={exchange:'bdg-blue',business:'bdg-purple',bank:'bdg-green',cash:'bdg-gold',ticketing:'bdg-gold',customer:'bdg-blue'};
+
+  document.getElementById('acd-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:1rem">
+      <span class="bdg ${typeColors[a.type]||'bdg-gray'}">${a.type}</span>
+      <span class="bdg bdg-gray">${a.currency}</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--muted);cursor:pointer" onclick="closeModal('mo-ac-detail');nav('ledger');setTimeout(()=>{ const el=document.getElementById('le-ac'); if(el){el.value='${id}';renderLedger();}},100)">→ View in Ledger</span>
+    </div>
+    <div class="g3" style="margin-bottom:1rem">
+      <div class="kpi k-red" style="padding:.6rem .8rem"><div class="kpi-lbl">Credits (AED)</div><div class="kpi-val" style="font-size:15px;color:var(--red)">${fmtAED(totCr)}</div></div>
+      <div class="kpi k-green" style="padding:.6rem .8rem"><div class="kpi-lbl">Debits (AED)</div><div class="kpi-val" style="font-size:15px;color:var(--green)">${fmtAED(totDr)}</div></div>
+      <div class="kpi" style="padding:.6rem .8rem"><div class="kpi-lbl">Net Balance</div><div class="kpi-val" style="font-size:15px">${balStr}</div></div>
+    </div>
+    <div class="stat-row"><span class="text-sm">Opening Balance</span><strong>${fmtAED(a.initBal||0)}</strong></div>
+    ${a.notes?`<div class="stat-row"><span class="text-sm">Notes</span><span>${a.notes}</span></div>`:''}
+    <hr class="divider">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+      <div class="sec-ttl" style="margin:0">Recent Entries</div>
+      <span style="font-size:11px;color:var(--muted)">${primaryEnts.length} total</span>
+    </div>
+    ${primaryEnts.slice(0,6).map(e=>{
+      const isCr=e.type==='credit';
+      const dispAmt=isCr?'('+fmtAED(e.aed)+')':'+'+fmtAED(e.aed);
+      return`<div class="stat-row">
+        <span>
+          <span style="font-size:12px;font-weight:600">${e.desc.length>45?e.desc.slice(0,45)+'…':e.desc}</span><br>
+          <span class="text-sm">${(e.dt||'').slice(0,10)} • ${e.vno||'—'}</span>
+        </span>
+        <span class="num ${isCr?'amt-cr':'amt-dr'}">${dispAmt}</span>
+      </div>`;
+    }).join('')||'<div class="empty" style="padding:1rem;text-align:center;color:var(--muted);font-size:12px">No entries yet — use + Add Entry below</div>'}
+`;
+  document.getElementById('acd-del').onclick=()=>{
+    if(!confirm('Delete account and all its entries?'))return;
+    DB.accounts=DB.accounts.filter(x=>x.id!==id);
+    DB.entries=DB.entries.filter(e=>e.acId!==id);
+    saveDB(); closeModal('mo-ac-detail'); renderAll();
+  };
+  document.getElementById('acd-edit').onclick=()=>{ closeModal('mo-ac-detail'); editAccount(id); };
+  document.getElementById('acd-add-entry').onclick=()=>{
+    closeModal('mo-ac-detail');
+    openEntry(id); // pass account id to pre-select
+  };
+  openModal('mo-ac-detail');
+}
+
+function resetAccountModal(){
+  document.getElementById('ac-ttl').textContent='Add Account';
+  document.getElementById('ac-id').value='';
+  ['ac-name','ac-notes','ac-bal'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
+}
+function editAccount(id){
+  const a=DB.accounts.find(x=>x.id===id); if(!a)return;
+  document.getElementById('ac-ttl').textContent='Edit Account';
+  document.getElementById('ac-id').value=id;
+  document.getElementById('ac-name').value=a.name;
+  document.getElementById('ac-type').value=a.type;
+  document.getElementById('ac-cur').value=a.currency;
+  document.getElementById('ac-bal').value=a.initBal||0;
+  document.getElementById('ac-notes').value=a.notes||'';
+  openModal('mo-account');
+}
+function saveAccount(){
+  const id=document.getElementById('ac-id').value;
+  const data={ id:id||uid(), name:document.getElementById('ac-name').value.trim(), type:document.getElementById('ac-type').value, currency:document.getElementById('ac-cur').value, initBal:parseFloat(document.getElementById('ac-bal').value)||0, notes:document.getElementById('ac-notes').value.trim() };
+  if(!data.name){ toast('Enter account name','err'); return; }
+  if(id){ const i=DB.accounts.findIndex(a=>a.id===id); DB.accounts[i]=data; } else DB.accounts.push(data);
+  saveDB(); closeModal('mo-account'); renderAll(); toast('Account saved','ok');
+}
+
+// ═══════════════════════════════════════
+// LEDGER ENTRIES — full fix
+// Shows entries for primary account AND linked (recipient) entries
+// ═══════════════════════════════════════
+function renderLedger(){
+  const srch=(document.getElementById('le-srch')||{}).value?.toLowerCase()||'';
+  const acF=(document.getElementById('le-ac')||{}).value||'';
+  const typeF=(document.getElementById('le-type')||{}).value||'';
+  // Auto-init date range to current year if not set
+  const leFrom=document.getElementById('le-from');
+  const leTo=document.getElementById('le-to');
+  if(leFrom&&!leFrom.value){ leFrom.value=new Date().getFullYear()+'-01-01'; }
+  if(leTo&&!leTo.value){ leTo.value=todayStr(); }
+  const fromF=leFrom?leFrom.value:'';
+  const toF=leTo?leTo.value:'';
+
+  // Only show each account's own entries — no cross-account linking
+  let entries=[...DB.entries];
+  if(acF) entries=entries.filter(e=>e.acId===acF);
+  // Filter by type (based on perspective)
+  if(typeF) entries=entries.filter(e=>e.type===typeF);
+  // Date filter — FIX: compare date portion only
+  if(fromF) entries=entries.filter(e=>e.dt&&e.dt.slice(0,10)>=fromF);
+  if(toF) entries=entries.filter(e=>e.dt&&e.dt.slice(0,10)<=toF);
+  if(srch) entries=entries.filter(e=>e.desc.toLowerCase().includes(srch)||(e.vno||'').toLowerCase().includes(srch)||(e.ref||'').toLowerCase().includes(srch));
+
+  // Sort by date asc for running balance
+  entries.sort((a,b)=>a.dt.localeCompare(b.dt));
+
+  // Running balance: start from initBal of the filtered account
+  let runBal=0;
+  if(acF){
+    const ac=DB.accounts.find(a=>a.id===acF);
+    runBal=(ac?.initBal||0);
+  }
+  let totDr=0, totCr=0;
+
+  const tbody=document.getElementById('le-body'); if(!tbody)return;
+  const rows=entries.map(e=>{
+    const ac=getAccount(e.acId);
+    const dr=e.type==='debit'?e.aed:0;
+    const cr=e.type==='credit'?e.aed:0;
+    totDr+=dr; totCr+=cr;
+    runBal+=(cr-dr); // credit = owed to us (goes negative), debit = they paid us (reduces negative)
+    // Display: negative = receivable (red brackets), positive = we owe them (green)
+    const absBal=Math.abs(runBal);
+    // POSITIVE runBal = credits > debits = we gave more than received = RECEIVABLE (red brackets)
+    // NEGATIVE runBal = debits > credits = exchange paid us more = we owe them (green)
+    const balStr=runBal>0
+      ?'(<span style="color:var(--red);font-weight:800">'+fmtAED(runBal)+'</span>)'
+      :runBal<0
+        ?'<span style="color:var(--green);font-weight:800">'+fmtAED(absBal)+'</span>'
+        :'<span style="color:var(--muted)">AED 0.00</span>';
+    return`<tr>
+      <td class="dt">${fmtDT(e.dt)}</td>
+      <td><span class="vno">${e.vno||'—'}</span></td>
+      <td class="desc-cell">${e.desc}${e.ref?`<br><span class="text-sm">Ref: ${e.ref}</span>`:''}</td>
+      ${!acF?`<td><span class="bdg ${e.type==='credit'?'bdg-blue':'bdg-purple'}">${ac.name}</span></td>`:'<td style="display:none"></td>'}
+      <td class="r num">${e.fAmt&&e.fAmt>0?fmtN(e.fAmt,0):'—'}</td>
+      <td class="r num">${e.cur&&e.cur!=='AED'&&e.rate&&e.rate!==1?e.rate:'—'}</td>
+      <td class="r num amt-dr">${dr?fmtAED(dr):'—'}</td>
+      <td class="r num amt-cr">${cr?fmtAED(cr):'—'}</td>
+      <td class="r num">${balStr}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editEntry('${e.id}')">✏</button>
+        <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delEntry('${e.id}')">×</button>
+      </td>
+    </tr>`;
+  });
+
+  const totNet=totCr-totDr;
+  // totNet>0 = more credited (sent) than debited (received) = receivable from exchange = red
+  const totBalStr=totNet>0
+    ?'(<span style="color:var(--red);font-weight:800">'+fmtAED(totNet)+'</span>)'
+    :totNet<0
+      ?'<span style="color:var(--green);font-weight:800">'+fmtAED(Math.abs(totNet))+'</span>'
+      :'<span style="color:var(--muted)">AED 0.00</span>';
+  tbody.innerHTML=(rows.length?rows.join('')+`<tr class="tot">
+    <td colspan="3" style="text-align:right;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding-right:1rem">TOTAL ••••••••••••••••••••••••••&gt;</td>
+    <td></td><td></td>
+    <td class="r num">${fmtAED(totDr)}</td>
+    <td class="r num">${fmtAED(totCr)}</td>
+    <td class="r num">${totBalStr}</td>
+    <td></td></tr>`
+  :'<tr><td colspan="10"><div class="empty">No entries found</div></td></tr>');
+}
+
+// ═══════════════════════════════════════
+// STATEMENT REPORT
+// ═══════════════════════════════════════
+function renderReport(){
+  const acId=(document.getElementById('rpt-ac')||{}).value||'';
+  // Auto-init date range if not set
+  const rptFrom=document.getElementById('rpt-from');
+  const rptTo=document.getElementById('rpt-to');
+  if(rptFrom&&!rptFrom.value){ rptFrom.value=new Date().getFullYear()+'-01-01'; }
+  if(rptTo&&!rptTo.value){ rptTo.value=todayStr(); }
+  const fromF=rptFrom?rptFrom.value:'';
+  const toF=rptTo?rptTo.value:'';
+  const cont=document.getElementById('rpt-container'); if(!cont)return;
+
+  // Build entry list (same as ledger but cleaner for print)
+  // Each account shows only its own entries
+  let entries=[...DB.entries];
+  if(acId) entries=entries.filter(e=>e.acId===acId);
+  if(fromF) entries=entries.filter(e=>e.dt&&e.dt.slice(0,10)>=fromF);
+  if(toF) entries=entries.filter(e=>e.dt&&e.dt.slice(0,10)<=toF);
+  entries.sort((a,b)=>a.dt.localeCompare(b.dt));
+
+  const acLabel=acId?(DB.accounts.find(a=>a.id===acId)||{name:'ALL ACCOUNTS'}).name.toUpperCase():'ALL ACCOUNTS';
+  // Opening balance
+  let bal=acId?((DB.accounts.find(a=>a.id===acId)||{initBal:0}).initBal||0):0;
+  let totDr=0,totCr=0;
+
+  const rows=entries.map(e=>{
+    const dr=e.type==='debit'?e.aed:0;
+    const cr=e.type==='credit'?e.aed:0;
+    totDr+=dr; totCr+=cr; bal+=(cr-dr);
+    const absB=Math.abs(bal);
+    // bal>0 = more credits (sent) than debits (received) = receivable = red brackets
+    const balStr=bal>0?'('+fmtN(bal)+')':bal<0?fmtN(absB):'0.00';
+    const balCls=bal>0?'bal-neg':bal<0?'bal-pos':'';
+    return`<tr>
+      <td class="dt" style="white-space:nowrap;font-size:11px">${fmtDT(e.dt)}</td>
+      <td><span class="vno">${e.vno||'—'}</span></td>
+      <td class="desc-cell">${e.desc}${e.ref?`<br><span class="text-sm">Ref: ${e.ref}</span>`:''}</td>
+      <td class="r num">${e.fAmt&&e.fAmt>0?fmtN(e.fAmt,0):'—'}</td>
+      <td class="r num">${e.cur&&e.cur!=='AED'&&e.rate&&e.rate!==1?e.rate:'—'}</td>
+      <td class="r num ${dr?'amt-dr':''}">${dr?fmtN(dr):'—'}</td>
+      <td class="r num ${cr?'amt-cr':''}">${cr?fmtN(cr):'—'}</td>
+      <td class="r num ${balCls}" style="font-weight:800">${balStr}</td>
+    </tr>`;
+  });
+
+  const dateRange=(fromF||toF)?`${fromF?fmtD(fromF):'Start'} — ${toF?fmtD(toF):'Today'}`:'All Dates';
+  cont.innerHTML=`
+  <div class="rpt-wrap">
+    <div class="rpt-hd">
+      <h1>STATEMENT OF ${acLabel}</h1>
+      <p>${dateRange}</p>
+    </div>
+    <div class="tbl-wrap">
+    <table class="ledger" style="border-top:2px solid var(--navy)">
+      <thead>
+        <tr>
+          <th style="min-width:130px">DATE</th>
+          <th style="min-width:100px">V. NO</th>
+          <th style="min-width:280px">DESCRIPTION</th>
+          <th class="r" style="min-width:90px">AMOUNT</th>
+          <th class="r" style="min-width:60px">RATE</th>
+          <th class="r" style="min-width:110px;color:var(--green)">DEBIT</th>
+          <th class="r" style="min-width:110px;color:var(--red)">CREDIT</th>
+          <th class="r" style="min-width:120px">BALANCE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="8" style="padding:3px 8px;font-style:italic;font-size:11px;color:var(--muted)">— Opening —</td></tr>
+        ${rows.length?rows.join(''):'<tr><td colspan="8"><div class="empty">No entries for this selection</div></td></tr>'}
+      </tbody>
+      <tfoot>
+        <tr class="tot">
+          <td colspan="3" style="text-align:right;font-size:10px;letter-spacing:.5px;text-transform:uppercase">TOTAL ••••••••••••••••••••••••••••••••••&gt;</td>
+          <td></td><td></td>
+          <td class="r num">${fmtN(totDr)}</td>
+          <td class="r num">${fmtN(totCr)}</td>
+          <td class="r num" style="font-weight:800;color:${bal>0?'var(--red)':bal<0?'var(--green)':'var(--muted)'}">${bal>0?'('+fmtN(bal)+')':bal<0?fmtN(Math.abs(bal)):'0.00'}</td>
+        </tr>
+      </tfoot>
+    </table>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════
+// ENTRY MODAL
+// ═══════════════════════════════════════
+function openEntry(presetAcId){
+  document.getElementById('entry-ttl').textContent='New Ledger Entry';
+  document.getElementById('en-id').value='';
+  document.getElementById('en-dt').value=todayDT();
+  ['en-vno','en-desc','en-ref'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
+  document.getElementById('en-famount').value='';
+  document.getElementById('en-aed').value='';
+  document.getElementById('en-rate').value='';
+  _lastAutoDesc = '';
+  setEntryType('debit');
+  openModal('mo-entry');
+  // Pre-select account if launched from account detail
+  if(presetAcId){
+    setTimeout(()=>{
+      const acSel=document.getElementById('en-ac');
+      if(acSel){ acSel.value=presetAcId; }
+      const acName=(DB.accounts.find(a=>a.id===presetAcId)||{name:''}).name;
+      if(acName) document.getElementById('entry-ttl').textContent='New Entry — '+acName;
+      autoDesc();
+    },30);
+  }
+}
+function setEntryType(t){
+  document.getElementById('en-type').value=t;
+  document.getElementById('tgl-dr').classList.toggle('on',t==='debit');
+  document.getElementById('tgl-cr').classList.toggle('on',t==='credit');
+  autoDesc();
+}
+function pickCurrency(){
+  const cur=document.getElementById('en-cur').value;
+  const rateEl=document.getElementById('en-rate');
+  if(!rateEl)return;
+  if(cur==='AED'){ rateEl.value=''; return; }
+  const c=DB.currencies.find(x=>x.code===cur);
+  if(c&&c.rate){ rateEl.value=c.rate; }
+}
+function calcAED(){
+  const f=parseFloat(document.getElementById('en-famount').value)||0;
+  const r=parseFloat(document.getElementById('en-rate').value)||0;
+  const cur=document.getElementById('en-cur').value;
+  if(cur==='AED'){ document.getElementById('en-aed').value=f.toFixed(2); return; }
+  if(f&&r) document.getElementById('en-aed').value=(f/r).toFixed(2);
+}
+
+// ─── AUTO-DESCRIPTION ───
+// Generates description from: account + amount + currency + rate + type
+// Only fills if description is empty or was previously auto-generated
+let _lastAutoDesc = '';
+function autoDesc(){
+  const descEl = document.getElementById('en-desc');
+  if(!descEl) return;
+  const current = descEl.value.trim();
+  // Only auto-fill if empty OR the current value was our last auto-generated value
+  if(current && current !== _lastAutoDesc) return;
+
+  const acId  = document.getElementById('en-ac').value;
+  const fAmt  = parseFloat(document.getElementById('en-famount').value)||0;
+  const cur   = document.getElementById('en-cur').value;
+  const rate  = parseFloat(document.getElementById('en-rate').value)||0;
+  const aed   = parseFloat(document.getElementById('en-aed').value)||0;
+  const type  = document.getElementById('en-type').value;
+
+  const acName = acId ? (DB.accounts.find(a=>a.id===acId)||{name:''}).name.toUpperCase() : '';
+  const curSym = cur ? (DB.currencies.find(c=>c.code===cur)||{symbol:cur}).symbol : '';
+
+  // Format number: no decimals for large integers, 2dp for small
+  function fmt(n){ return n%1===0 ? Number(n).toLocaleString('en-US') : Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+  let desc = '';
+
+  if(cur && cur !== 'AED' && fAmt > 0 && rate > 0){
+    // Foreign currency transaction: e.g. "NEPALI 3,822,150 @ 42.25"  or "USD 65,000 @ 3.59"
+    const curLabel = cur === 'INR' ? 'INDIAN' : cur === 'NPR' ? 'NEPALI' : cur === 'PKR' ? 'PAKISTANI' : cur;
+    desc = `${curLabel} ${fmt(fAmt)} @ ${rate}`;
+    if(type === 'debit') desc = `PAID ${cur} ${fmt(fAmt)} @ ${rate}`;
+    if(acName) desc += ` — ${acName}`;
+  } else if(aed > 0){
+    // AED transaction
+    if(type === 'debit'){
+      desc = acName ? `CASH PAID TO ${acName}` : `CASH PAID`;
+      desc += ` AED ${fmt(aed)}`;
+    } else {
+      desc = acName ? `RECEIVED FROM ${acName}` : `CASH RECEIVED`;
+      desc += ` AED ${fmt(aed)}`;
+    }
+  } else if(fAmt > 0 && cur){
+    // Have amount and currency but no rate yet
+    const curLabel = cur === 'INR' ? 'INDIAN' : cur === 'NPR' ? 'NEPALI' : cur === 'PKR' ? 'PAKISTANI' : cur;
+    desc = `${curLabel} ${fmt(fAmt)}`;
+    if(acName) desc += ` — ${acName}`;
+  } else if(acName){
+    // At minimum have account
+    desc = type === 'debit' ? `PAID TO ${acName}` : `RECEIVED FROM ${acName}`;
+  }
+
+  if(desc){
+    descEl.value = desc;
+    _lastAutoDesc = desc;
+  }
+}
+function saveEntry(){
+  const id=document.getElementById('en-id').value;
+  const aed=parseFloat(document.getElementById('en-aed').value)||0;
+  const data={
+    id:id||uid(),
+    dt:document.getElementById('en-dt').value.replace('T',' '),
+    vno:document.getElementById('en-vno').value.trim(),
+    acId:document.getElementById('en-ac').value,
+    desc:document.getElementById('en-desc').value.trim(),
+    fAmt:parseFloat(document.getElementById('en-famount').value)||0,
+    cur:document.getElementById('en-cur').value,
+    rate:parseFloat(document.getElementById('en-rate').value)||1,
+    aed,
+    type:document.getElementById('en-type').value,
+    ref:document.getElementById('en-ref').value.trim()
+  };
+  if(!data.desc){ toast('Enter description','err'); return; }
+  if(!aed){ toast('Enter AED amount','err'); return; }
+  if(!data.acId){ toast('Select an account','err'); return; }
+  if(id){ const i=DB.entries.findIndex(e=>e.id===id); DB.entries[i]=data; }
+  else DB.entries.push(data);
+  saveDB(); closeModal('mo-entry'); renderAll(); toast('Entry saved','ok');
+}
+function editEntry(id){
+  const e=DB.entries.find(x=>x.id===id); if(!e)return;
+  document.getElementById('entry-ttl').textContent='Edit Entry';
+  document.getElementById('en-id').value=id;
+  document.getElementById('en-dt').value=(e.dt||'').replace(' ','T');
+  document.getElementById('en-vno').value=e.vno||'';
+  document.getElementById('en-ac').value=e.acId;
+  document.getElementById('en-desc').value=e.desc;
+  document.getElementById('en-famount').value=e.fAmt||'';
+  document.getElementById('en-cur').value=e.cur;
+  document.getElementById('en-rate').value=e.rate||'';
+  document.getElementById('en-aed').value=e.aed;
+  document.getElementById('en-ref').value=e.ref||'';
+
+  setEntryType(e.type);
+  _lastAutoDesc = ''; // existing entries: don't auto-overwrite description
+  openModal('mo-entry');
+}
+function delEntry(id){
+  if(!confirm('Delete this entry?'))return;
+  DB.entries=DB.entries.filter(x=>x.id!==id);
+  saveDB(); renderAll(); toast('Entry deleted');
+}
+
+// ═══════════════════════════════════════
+// QUICK NAVIGATE TO LEDGER FILTERED BY ACCOUNT
+// ═══════════════════════════════════════
+function filterLedgerByAccount(acId){
+  nav('ledger');
+  setTimeout(()=>{
+    const el=document.getElementById('le-ac');
+    if(el){ el.value=acId; renderLedger(); }
+  },80);
+}
+
+// ═══════════════════════════════════════
+// TRANSFERS
+// ═══════════════════════════════════════
+function calcTrRate(){
+  const f=parseFloat(document.getElementById('tr-af').value)||0;
+  const t=parseFloat(document.getElementById('tr-at').value)||0;
+  if(f&&t) document.getElementById('tr-rate').value=(t/f).toFixed(4);
+}
+function renderTransfers(){
+  const tbody=document.getElementById('tr-body'); if(!tbody)return;
+  const sorted=[...DB.transfers].sort((a,b)=>b.dt.localeCompare(a.dt));
+  tbody.innerHTML=sorted.length?sorted.map(t=>{
+    const fa=getAccount(t.from); const ta=getAccount(t.to);
+    return`<tr>
+      <td>${fmtD(t.dt)}</td>
+      <td>${fa.name}</td><td>${ta.name}</td>
+      <td class="r num amt-dr">${fmtAED(t.af)}</td>
+      <td class="r num amt-cr">${fmtAED(t.at)}</td>
+      <td class="r num">${(t.rate||1).toFixed(4)}</td>
+      <td>${t.ref||'—'}</td>
+      <td><button class="btn btn-red" style="padding:2px 6px;font-size:11px" onclick="delTransfer('${t.id}')">×</button></td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="8"><div class="empty">No transfers yet</div></td></tr>';
+}
+function saveTransfer(){
+  const fromId=document.getElementById('tr-from').value;
+  const toId=document.getElementById('tr-to').value;
+  const af=parseFloat(document.getElementById('tr-af').value)||0;
+  const at=parseFloat(document.getElementById('tr-at').value)||0;
+  if(!fromId||!toId||fromId===toId){ toast('Select different accounts','err'); return; }
+  if(!af||!at){ toast('Enter both amounts','err'); return; }
+  const data={ id:uid(), from:fromId, to:toId, af, at, rate:at/af, dt:document.getElementById('tr-dt').value, ref:document.getElementById('tr-ref').value.trim() };
+  // Record as paired entries
+  DB.entries.push({id:uid(),dt:data.dt+' 00:00',vno:'TRF-'+data.id.slice(-5).toUpperCase(),acId:fromId,desc:'Transfer to '+getAccount(toId).name+' | Received: AED '+at,fAmt:0,cur:'AED',rate:1,aed:af,type:'debit',ref:data.ref});
+  DB.entries.push({id:uid(),dt:data.dt+' 00:00',vno:'TRF-'+data.id.slice(-5).toUpperCase(),acId:toId,desc:'Transfer received from '+getAccount(fromId).name,fAmt:0,cur:'AED',rate:1,aed:at,type:'credit',ref:data.ref});
+  DB.transfers.push(data);
+  saveDB(); closeModal('mo-transfer'); renderAll(); toast('Transfer saved','ok');
+}
+function delTransfer(id){
+  if(!confirm('Delete transfer?'))return;
+  DB.transfers=DB.transfers.filter(x=>x.id!==id);
+  saveDB(); renderAll(); toast('Transfer deleted');
+}
+
+// ═══════════════════════════════════════
+// EXPENSES
+// ═══════════════════════════════════════
+function renderExpenses(){
+  const bizF=(document.getElementById('ex-biz')||{}).value||'';
+  const catF=(document.getElementById('ex-cat')||{}).value||'';
+  const stF=(document.getElementById('ex-st')||{}).value||'';
+  let exps=[...DB.expenses].sort((a,b)=>b.dt.localeCompare(a.dt));
+  if(bizF) exps=exps.filter(e=>e.biz===bizF);
+  if(catF) exps=exps.filter(e=>e.cat===catF);
+  if(stF) exps=exps.filter(e=>e.status===stF);
+  const tbody=document.getElementById('ex-body'); if(!tbody)return;
+  const stBdg={pending:'bdg-gold',reimbursed:'bdg-green','written-off':'bdg-gray'};
+  tbody.innerHTML=exps.length?exps.map(e=>{
+    const ac=getAccount(e.acId);
+    return`<tr>
+      <td>${fmtD(e.dt)}</td>
+      <td>${e.desc}</td>
+      <td><span class="bdg bdg-blue">${e.biz}</span></td>
+      <td>${e.cat}</td>
+      <td>${ac.name}</td>
+      <td class="r num amt-dr">${fmtN(e.amt)} ${e.cur}</td>
+      <td class="r num">${fmtAED(toAED(e.amt,e.cur))}</td>
+      <td><span class="bdg ${stBdg[e.status]||'bdg-gray'}">${e.status}</span></td>
+      <td>
+        <button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editExpense('${e.id}')">✏</button>
+        <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delExpense('${e.id}')">×</button>
+      </td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="9"><div class="empty">No expenses</div></td></tr>';
+  const bizzes=[...new Set(DB.expenses.map(e=>e.biz))];
+  const dl=document.getElementById('biz-dl'); if(dl) dl.innerHTML=bizzes.map(b=>`<option value="${b}">`).join('');
+  const bizSel=document.getElementById('ex-biz'); if(bizSel){ const cv=bizSel.value; bizSel.innerHTML='<option value="">All Businesses</option>'+bizzes.map(b=>`<option ${cv===b?'selected':''} value="${b}">${b}</option>`).join(''); }
+}
+function saveExpense(){
+  const id=document.getElementById('ex-id').value;
+  const data={ id:id||uid(), desc:document.getElementById('ex-desc').value.trim(), biz:document.getElementById('ex-biz-val').value.trim(), cat:document.getElementById('ex-cat-val').value, acId:document.getElementById('ex-ac').value, amt:parseFloat(document.getElementById('ex-amt').value)||0, cur:document.getElementById('ex-cur').value, dt:document.getElementById('ex-dt').value, status:document.getElementById('ex-st-val').value, notes:document.getElementById('ex-notes').value.trim() };
+  if(!data.desc||!data.biz||!data.amt){ toast('Fill all required fields','err'); return; }
+  if(id){ const i=DB.expenses.findIndex(e=>e.id===id); DB.expenses[i]=data; } else DB.expenses.push(data);
+  saveDB(); closeModal('mo-expense'); renderAll(); toast('Expense saved','ok');
+}
+function editExpense(id){
+  const e=DB.expenses.find(x=>x.id===id); if(!e)return;
+  document.getElementById('ex-ttl').textContent='Edit Expense';
+  document.getElementById('ex-id').value=id;
+  document.getElementById('ex-desc').value=e.desc;
+  document.getElementById('ex-biz-val').value=e.biz;
+  document.getElementById('ex-cat-val').value=e.cat;
+  document.getElementById('ex-ac').value=e.acId;
+  document.getElementById('ex-amt').value=e.amt;
+  document.getElementById('ex-cur').value=e.cur;
+  document.getElementById('ex-dt').value=e.dt;
+  document.getElementById('ex-st-val').value=e.status;
+  document.getElementById('ex-notes').value=e.notes||'';
+  openModal('mo-expense');
+}
+function delExpense(id){
+  if(!confirm('Delete expense?'))return;
+  DB.expenses=DB.expenses.filter(x=>x.id!==id);
+  saveDB(); renderAll(); toast('Expense deleted');
+}
+
+// ═══════════════════════════════════════
+// CURRENCIES
+// ═══════════════════════════════════════
+function renderCurrencies(){
+  const tbody=document.getElementById('cur-body'); if(!tbody)return;
+  tbody.innerHTML=DB.currencies.map(c=>`<tr>
+    <td><strong>${c.name}</strong></td>
+    <td><span class="bdg bdg-blue">${c.code}</span></td>
+    <td style="font-size:16px">${c.symbol}</td>
+    <td class="r num">${c.code==='AED'?'<span class="bdg bdg-gold">Base</span>':`1 AED = ${c.symbol}${c.rate}`}</td>
+    <td class="text-sm">${c.updatedAt||'—'}</td>
+    <td>${c.code==='AED'?'':
+      `<button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('${c.id}')">Edit</button>
+       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('${c.id}')">×</button>`}
+    </td>
+  </tr>`).join('');
+}
+function saveCurrency(){
+  const id=document.getElementById('cur-id').value;
+  const code=document.getElementById('cur-code').value.trim().toUpperCase();
+  const data={ id:id||uid(), name:document.getElementById('cur-name').value.trim(), code, symbol:document.getElementById('cur-sym').value.trim(), rate:parseFloat(document.getElementById('cur-rate').value)||1, updatedAt:todayStr() };
+  if(!data.name||!data.code){ toast('Fill name and code','err'); return; }
+  if(!id&&DB.currencies.find(c=>c.code===code)){ toast('Code already exists','err'); return; }
+  if(id){ const i=DB.currencies.findIndex(c=>c.id===id); DB.currencies[i]=data; } else DB.currencies.push(data);
+  saveDB(); closeModal('mo-currency'); renderAll(); toast('Currency saved','ok');
+}
+function editCur(id){
+  const c=DB.currencies.find(x=>x.id===id); if(!c)return;
+  document.getElementById('cur-ttl').textContent='Edit Currency';
+  document.getElementById('cur-id').value=id;
+  document.getElementById('cur-name').value=c.name;
+  document.getElementById('cur-code').value=c.code;
+  document.getElementById('cur-sym').value=c.symbol;
+  document.getElementById('cur-rate').value=c.rate;
+  openModal('mo-currency');
+}
+function delCur(id){ if(!confirm('Delete currency?'))return; DB.currencies=DB.currencies.filter(c=>c.id!==id); saveDB(); renderAll(); toast('Deleted'); }
+
+// ═══════════════════════════════════════
+// USERS
+// ═══════════════════════════════════════
+function renderUsers(){
+  const tbody=document.getElementById('usr-body'); if(!tbody)return;
+  tbody.innerHTML=DB.users.map(u=>`<tr>
+    <td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:26px;height:26px;font-size:10px">${u.name[0]}</div><strong>${u.name}</strong></div></td>
+    <td><span class="bdg bdg-gray">@${u.username}</span></td>
+    <td><span class="bdg ${u.role==='admin'?'bdg-gold':u.role==='accountant'?'bdg-blue':'bdg-gray'}">${u.role}</span></td>
+    <td><span class="bdg ${u.status==='active'?'bdg-green':'bdg-red'}">${u.status}</span></td>
+    <td class="text-sm">${u.lastLogin?new Date(u.lastLogin).toLocaleDateString('en-GB'):'Never'}</td>
+    <td>${u.id==='u1'?'':
+      `<button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editUser('${u.id}')">Edit</button>
+       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delUser('${u.id}')">×</button>`}
+    </td>
+  </tr>`).join('');
+}
+function saveUser(){
+  const id=document.getElementById('usr-id').value;
+  const pw=document.getElementById('usr-pw').value;
+  const un=document.getElementById('usr-un').value.trim();
+  if(!id&&!pw){ toast('Enter password','err'); return; }
+  if(!un){ toast('Enter username','err'); return; }
+  if(!id&&DB.users.find(u=>u.username===un)){ toast('Username taken','err'); return; }
+  const data={ id:id||uid(), name:document.getElementById('usr-name').value.trim(), username:un, password:pw||(DB.users.find(u=>u.id===id)?.password||''), role:document.getElementById('usr-role').value, status:document.getElementById('usr-st').value, lastLogin:id?(DB.users.find(u=>u.id===id)?.lastLogin||null):null };
+  if(!data.name){ toast('Enter name','err'); return; }
+  if(id){ const i=DB.users.findIndex(u=>u.id===id); DB.users[i]=data; } else DB.users.push(data);
+  saveDB(); closeModal('mo-user'); renderAll(); toast('User saved','ok');
+}
+function editUser(id){
+  const u=DB.users.find(x=>x.id===id); if(!u)return;
+  document.getElementById('usr-ttl').textContent='Edit User';
+  document.getElementById('usr-id').value=id;
+  document.getElementById('usr-name').value=u.name;
+  document.getElementById('usr-un').value=u.username;
+  document.getElementById('usr-pw').value='';
+  document.getElementById('usr-role').value=u.role;
+  document.getElementById('usr-st').value=u.status;
+  openModal('mo-user');
+}
+function delUser(id){ if(id==='u1'){ toast("Can't delete main admin",'err'); return; } if(!confirm('Delete user?'))return; DB.users=DB.users.filter(u=>u.id!==id); saveDB(); renderAll(); toast('User deleted'); }
+
+// ═══════════════════════════════════════
+// POPULATE SELECTS
+// ═══════════════════════════════════════
+function populateSelects(){
+  const curOpts=DB.currencies.map(c=>`<option value="${c.code}">${c.code} — ${c.name}</option>`).join('');
+  const acOpts=DB.accounts.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');
+  const acOptAll='<option value="">All Accounts</option>'+acOpts;
+  [['en-cur',curOpts],['ex-cur',curOpts],['ac-cur',curOpts],
+   ['en-ac',acOpts],['tr-from',acOpts],['tr-to',acOpts],['ex-ac',acOpts],
+   ['le-ac',acOptAll],['rpt-ac',acOptAll]
+  ].forEach(([id,html])=>{
+    const el=document.getElementById(id); if(!el)return;
+    const v=el.value; el.innerHTML=html; if(v) el.value=v;
+  });
+}
+
+// ═══════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════
+function openModal(id){
+  document.getElementById(id).classList.add('on');
+  if(id==='mo-transfer'){ document.getElementById('tr-dt').value=todayStr(); document.getElementById('tr-id').value=''; ['tr-af','tr-at','tr-rate','tr-ref'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=''; }); }
+  if(id==='mo-expense'){ document.getElementById('ex-dt').value=todayStr(); document.getElementById('ex-id').value=''; document.getElementById('ex-ttl').textContent='Add Expense'; }
+  if(id==='mo-currency'){ document.getElementById('cur-id').value=''; document.getElementById('cur-ttl').textContent='Add Currency'; ['cur-name','cur-code','cur-sym','cur-rate'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=''; }); }
+  if(id==='mo-user'){ document.getElementById('usr-id').value=''; document.getElementById('usr-ttl').textContent='Add User'; ['usr-name','usr-un','usr-pw'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=''; }); }
+}
+function closeModal(id){ document.getElementById(id).classList.remove('on'); }
+// Modals only close via Cancel or X button — no background click to close
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function toast(msg,type=''){
+  const t=document.getElementById('toaster');
+  const d=document.createElement('div');
+  d.className='toast'+(type?' '+type:'');
+  d.textContent=msg; t.appendChild(d);
+  setTimeout(()=>d.remove(),2800);
+}
+
+// ═══════════════════════════════════════
+// SUPABASE CLOUD SYNC
+// ═══════════════════════════════════════
+
+// Config persisted in localStorage (not bawabat4_db — separate key)
+let SB_URL = '';
+let SB_KEY = '';
+let syncInProgress = false;
+
+function loadSyncConfig(){
+  const cfg = localStorage.getItem('bawabat_sb_cfg');
+  if(cfg){ try{ const c=JSON.parse(cfg); SB_URL=c.url||''; SB_KEY=c.key||''; }catch(e){} }
+  const u=document.getElementById('sb-url'); if(u) u.value=SB_URL;
+  const k=document.getElementById('sb-key'); if(k) k.value=SB_KEY;
+  updateSyncDot();
+}
+
+function saveSyncConfig(){
+  SB_URL=(document.getElementById('sb-url')||{}).value?.trim()||'';
+  SB_KEY=(document.getElementById('sb-key')||{}).value?.trim()||'';
+  localStorage.setItem('bawabat_sb_cfg',JSON.stringify({url:SB_URL,key:SB_KEY}));
+  updateSyncDot();
+}
+
+function updateSyncDot(){
+  const dot=document.getElementById('sync-dot');
+  if(!dot)return;
+  dot.style.background=SB_URL&&SB_KEY?'var(--green)':'var(--muted)';
+}
+
+function sbHeaders(){
+  return{ 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY, 'Prefer':'resolution=merge-duplicates' };
+}
+
+function logSync(msg,type=''){
+  const el=document.getElementById('sync-log'); if(!el)return;
+  const colors={ok:'var(--green)',err:'var(--red)',info:'var(--blue)'};
+  const t=new Date().toLocaleTimeString('en-GB');
+  el.innerHTML+=`<div style="color:${colors[type]||'var(--text)'}"><span style="color:var(--muted)">[${t}]</span> ${msg}</div>`;
+  el.scrollTop=el.scrollHeight;
+}
+
+function setSyncBadge(text,cls){
+  const b=document.getElementById('sync-status-badge'); if(!b)return;
+  b.className='bdg '+cls; b.textContent=text;
+}
+
+async function sbUpsert(table, rows){
+  if(!rows||rows.length===0)return true;
+  const res=await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method:'POST',
+    headers:{...sbHeaders(),'Prefer':'resolution=merge-duplicates'},
+    body:JSON.stringify(rows)
+  });
+  if(!res.ok){ const err=await res.text(); throw new Error(`${table}: ${err}`); }
+  return true;
+}
+
+async function sbFetch(table){
+  const res=await fetch(`${SB_URL}/rest/v1/${table}?select=*`, {
+    headers:{ 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY }
+  });
+  if(!res.ok) throw new Error(`Fetch ${table} failed: ${res.status}`);
+  return res.json();
+}
+
+async function testConnection(){
+  if(!SB_URL||!SB_KEY){ logSync('Enter Project URL and Anon Key first','err'); return; }
+  logSync('Testing connection…','info');
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/baw_currencies?select=code&limit=1`,{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+    });
+    if(res.ok){
+      const data=await res.json();
+      setSyncBadge('Connected ✓','bdg-green');
+      logSync(`Connected! Found ${data.length>0?data[0].code:'table empty'} in currencies table.`,'ok');
+      updateSyncDot();
+    } else {
+      const err=await res.text();
+      setSyncBadge('Error','bdg-red');
+      logSync(`Connection failed: ${res.status} — ${err}`,'err');
+    }
+  }catch(e){ setSyncBadge('Error','bdg-red'); logSync('Connection error: '+e.message,'err'); }
+}
+
+// Push all local data to Supabase
+async function syncAll(){
+  if(!SB_URL||!SB_KEY){ nav('sync'); toast('Configure Supabase connection first','err'); return; }
+  if(syncInProgress){ logSync('Sync already in progress…','info'); return; }
+  syncInProgress=true;
+  const btn=document.getElementById('btn-sync-now'); if(btn)btn.textContent='⟳ Syncing…';
+  setSyncBadge('Syncing…','bdg-blue');
+  logSync('Starting full sync to Supabase…','info');
+  try{
+    // Map DB structure to table column names
+    const users=DB.users.map(u=>({id:u.id,name:u.name,username:u.username,password:u.password,role:u.role,status:u.status,last_login:u.lastLogin||null}));
+    const accounts=DB.accounts.map(a=>({id:a.id,name:a.name,type:a.type,currency:a.currency,init_bal:a.initBal||0,notes:a.notes||''}));
+    const currencies=DB.currencies.map(c=>({id:c.id,name:c.name,code:c.code,symbol:c.symbol,rate:c.rate,updated_at:c.updatedAt||''}));
+    const entries=DB.entries.map(e=>({id:e.id,dt:e.dt,vno:e.vno||'',ac_id:e.acId,description:e.desc,f_amt:e.fAmt||0,cur:e.cur,rate:e.rate||1,aed:e.aed,type:e.type,ref:e.ref||''}));
+    const transfers=DB.transfers.map(t=>({id:t.id,from_ac:t.from,to_ac:t.to,amount_from:t.af,amount_to:t.at,rate:t.rate||1,dt:t.dt,ref:t.ref||''}));
+    const expenses=DB.expenses.map(e=>({id:e.id,description:e.desc,business:e.biz,category:e.cat,ac_id:e.acId,amount:e.amt,cur:e.cur,dt:e.dt,status:e.status,notes:e.notes||''}));
+
+    await sbUpsert('baw_users',users); logSync(`✓ Users (${users.length})`,'ok');
+    await sbUpsert('baw_accounts',accounts); logSync(`✓ Accounts (${accounts.length})`,'ok');
+    await sbUpsert('baw_currencies',currencies); logSync(`✓ Currencies (${currencies.length})`,'ok');
+    await sbUpsert('baw_entries',entries); logSync(`✓ Entries (${entries.length})`,'ok');
+    await sbUpsert('baw_transfers',transfers); logSync(`✓ Transfers (${transfers.length})`,'ok');
+    await sbUpsert('baw_expenses',expenses); logSync(`✓ Expenses (${expenses.length})`,'ok');
+
+    setSyncBadge('Synced ✓','bdg-green');
+    logSync('All data synced to Supabase successfully!','ok');
+    toast('Synced to cloud ✓','ok');
+  }catch(e){
+    setSyncBadge('Sync Failed','bdg-red');
+    logSync('Sync error: '+e.message,'err');
+    toast('Sync failed — see log','err');
+  }finally{
+    syncInProgress=false;
+    if(btn)btn.textContent='⟳ Sync Now';
+  }
+}
+
+// Pull all data FROM Supabase → replace local DB
+async function pullFromCloud(){
+  if(!SB_URL||!SB_KEY){ logSync('Configure connection first','err'); return; }
+  if(!confirm('This will REPLACE all local data with cloud data. Continue?'))return;
+  logSync('Pulling from Supabase…','info');
+  setSyncBadge('Pulling…','bdg-blue');
+  try{
+    const [users,accounts,currencies,entries,transfers,expenses]=await Promise.all([
+      sbFetch('baw_users'),sbFetch('baw_accounts'),sbFetch('baw_currencies'),
+      sbFetch('baw_entries'),sbFetch('baw_transfers'),sbFetch('baw_expenses')
+    ]);
+    // Map back to local DB structure
+    DB.users=users.map(u=>({id:u.id,name:u.name,username:u.username,password:u.password,role:u.role,status:u.status,lastLogin:u.last_login||null}));
+    DB.accounts=accounts.map(a=>({id:a.id,name:a.name,type:a.type,currency:a.currency,initBal:parseFloat(a.init_bal)||0,notes:a.notes||''}));
+    DB.currencies=currencies.map(c=>({id:c.id,name:c.name,code:c.code,symbol:c.symbol,rate:parseFloat(c.rate)||1,updatedAt:c.updated_at||''}));
+    DB.entries=entries.map(e=>({id:e.id,dt:e.dt,vno:e.vno||'',acId:e.ac_id,desc:e.description,fAmt:parseFloat(e.f_amt)||0,cur:e.cur,rate:parseFloat(e.rate)||1,aed:parseFloat(e.aed)||0,type:e.type,ref:e.ref||''}));
+    DB.transfers=transfers.map(t=>({id:t.id,from:t.from_ac,to:t.to_ac,af:parseFloat(t.amount_from),at:parseFloat(t.amount_to),rate:parseFloat(t.rate)||1,dt:t.dt,ref:t.ref||''}));
+    DB.expenses=expenses.map(e=>({id:e.id,desc:e.description,biz:e.business,cat:e.category,acId:e.ac_id,amt:parseFloat(e.amount),cur:e.cur,dt:e.dt,status:e.status,notes:e.notes||''}));
+    saveDB();
+    setSyncBadge('Pulled ✓','bdg-green');
+    logSync(`Pulled: ${DB.users.length} users, ${DB.accounts.length} accounts, ${DB.entries.length} entries, ${DB.expenses.length} expenses`,'ok');
+    toast('Data pulled from cloud ✓','ok');
+    renderAll();
+  }catch(e){
+    setSyncBadge('Pull Failed','bdg-red');
+    logSync('Pull error: '+e.message,'err');
+    toast('Pull failed — see log','err');
+  }
+}
+
+// Auto-sync after every save (debounced 3 seconds)
+let autoSyncTimer=null;
+const _origSaveDB=saveDB;
+function saveDB(){
+  _origSaveDB();
+  if(SB_URL&&SB_KEY){
+    clearTimeout(autoSyncTimer);
+    autoSyncTimer=setTimeout(()=>{ syncAll(); },3000);
+  }
+}
+
+// Download the schema SQL file
+function downloadSchema(){
+  const sql=`-- BAWABAT ALKHAIR — Supabase Schema
+-- Run this in your Supabase project → SQL Editor → New Query
+
+create extension if not exists "uuid-ossp";
+
+create table if not exists baw_users (id text primary key,name text not null,username text unique not null,password text not null,role text not null default 'viewer',status text not null default 'active',last_login timestamptz,updated_at timestamptz default now());
+create table if not exists baw_accounts (id text primary key,name text not null,type text not null default 'general',currency text not null default 'AED',init_bal numeric not null default 0,notes text default '',updated_at timestamptz default now());
+create table if not exists baw_currencies (id text primary key,name text not null,code text unique not null,symbol text not null,rate numeric not null default 1,updated_at text default '');
+create table if not exists baw_entries (id text primary key,dt text not null,vno text default '',ac_id text not null,description text not null,f_amt numeric default 0,cur text default 'AED',rate numeric default 1,aed numeric not null default 0,type text not null,ref text default '',updated_at timestamptz default now());
+create table if not exists baw_transfers (id text primary key,from_ac text not null,to_ac text not null,amount_from numeric not null,amount_to numeric not null,rate numeric default 1,dt text not null,ref text default '',updated_at timestamptz default now());
+create table if not exists baw_expenses (id text primary key,description text not null,business text not null,category text not null,ac_id text not null,amount numeric not null,cur text default 'AED',dt text not null,status text default 'pending',notes text default '',updated_at timestamptz default now());
+
+alter table baw_users enable row level security;
+alter table baw_accounts enable row level security;
+alter table baw_currencies enable row level security;
+alter table baw_entries enable row level security;
+alter table baw_transfers enable row level security;
+alter table baw_expenses enable row level security;
+
+create policy "allow_all" on baw_users for all using (true) with check (true);
+create policy "allow_all" on baw_accounts for all using (true) with check (true);
+create policy "allow_all" on baw_currencies for all using (true) with check (true);
+create policy "allow_all" on baw_entries for all using (true) with check (true);
+create policy "allow_all" on baw_transfers for all using (true) with check (true);
+create policy "allow_all" on baw_expenses for all using (true) with check (true);
+
+-- Default currencies
+insert into baw_currencies (id,name,code,symbol,rate,updated_at) values
+('c0','UAE Dirham','AED','د.إ',1,'2026-01-01'),('c1','Indian Rupee','INR','₹',22.5,'2026-01-01'),
+('c2','Euro','EUR','€',0.253,'2026-01-01'),('c3','US Dollar','USD','$',0.272,'2026-01-01'),
+('c4','Pakistani Rupee','PKR','₨',75.8,'2026-01-01'),('c5','British Pound','GBP','£',0.217,'2026-01-01'),
+('c6','Saudi Riyal','SAR','﷼',1.02,'2026-01-01'),('c7','Nepali Rupee','NPR','रू',36.0,'2026-01-01')
+on conflict (id) do nothing;
+
+-- Admin user
+insert into baw_users (id,name,username,password,role,status) values ('u1','Admin','admin','admin123','admin','active') on conflict (id) do nothing;
+`;
+  const a=document.createElement('a');
+  a.href='data:text/sql;charset=utf-8,'+encodeURIComponent(sql);
+  a.download='bawabat_schema.sql';
+  a.click();
+  logSync('Schema SQL downloaded','ok');
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+loadDB();
+loadSyncConfig();
+document.getElementById('li-u').focus();
+</script>
+</body>
+</html>
