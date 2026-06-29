@@ -1,4 +1,6 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bawabat Alkhair — بوابة الخير</title>
@@ -166,23 +168,23 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
 <body>
 
 <!-- ═══ AUTH ═══ -->
-<div id="auth" style="display: none;">
+<div id="auth">
   <div class="auth-box">
     <div class="auth-logo">
       <div class="auth-icon">🌙</div>
       <h1>Bawabat Alkhair</h1>
-      <small>بوابة الخير — Ledger &amp; Account Management</small>
+      <small>بوابة الخير — Ledger & Account Management</small>
     </div>
     <div class="fld"><label>Username</label><input id="li-u" type="text" placeholder="Username" autocomplete="username"></div>
     <div class="fld"><label>Password</label><input id="li-p" type="password" placeholder="Password" autocomplete="current-password"></div>
     <div id="li-err" class="err-msg" style="display:none"></div>
     <button class="btn btn-gold btn-block" style="margin-top:.4rem" onclick="doLogin()">Sign In →</button>
-    <p class="text-sm" style="text-align:center;margin-top:.9rem">Default: admin / admin123</p>
+
   </div>
 </div>
 
 <!-- ═══ APP ═══ -->
-<div id="app" style="display: block;">
+<div id="app">
   <div class="shell">
 
     <!-- SIDEBAR -->
@@ -193,43 +195,43 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
       </div>
       <nav class="sb-nav">
         <div class="sb-sec">Overview</div>
-        <div class="sb-item" data-page="dashboard" onclick="nav('dashboard')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>Dashboard
+        <div class="sb-item on" data-page="dashboard" onclick="nav('dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
         </div>
         <div class="sb-sec">Accounts</div>
         <div class="sb-item" data-page="accounts" onclick="nav('accounts')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Accounts
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accounts
         </div>
         <div class="sb-item" data-page="ledger" onclick="nav('ledger')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Ledger Entries
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Ledger Entries
         </div>
         <div class="sb-item" data-page="report" onclick="nav('report')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>Statement Report
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>Statement Report
         </div>
         <div class="sb-sec">Finance</div>
         <div class="sb-item" data-page="transfers" onclick="nav('transfers')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 014-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 01-4 4H3"></path></svg>Transfers
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>Transfers
         </div>
         <div class="sb-item" data-page="expenses" onclick="nav('expenses')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>Expenses
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Expenses
         </div>
         <div class="sb-sec">Settings</div>
         <div class="sb-item" data-page="currencies" onclick="nav('currencies')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8m4-14v2m0 14v2"></path></svg>Currencies
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8m4-14v2m0 14v2"/></svg>Currencies
         </div>
-        <div class="sb-item" id="nav-users" data-page="users" onclick="nav('users')" style="display: flex;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg>Users
+        <div class="sb-item" id="nav-users" data-page="users" onclick="nav('users')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Users
         </div>
-        <div class="sb-item on" data-page="sync" onclick="nav('sync')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path></svg>Cloud Sync
-          <span id="sync-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-left: auto; flex-shrink: 0;"></span>
+        <div class="sb-item" data-page="sync" onclick="nav('sync')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Cloud Sync
+          <span id="sync-dot" style="width:7px;height:7px;border-radius:50%;background:var(--muted);margin-left:auto;flex-shrink:0"></span>
         </div>
       </nav>
       <div class="sb-foot">
         <div class="user-row" onclick="doLogout()">
           <div class="av" id="sb-av">A</div>
           <div style="flex:1;min-width:0"><div class="uname" id="sb-nm">Admin</div><div class="urole" id="sb-role">Administrator</div></div>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         </div>
       </div>
     </div>
@@ -238,38 +240,23 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <div class="main">
 
       <!-- ── DASHBOARD ── -->
-      <div class="page" id="page-dashboard">
+      <div class="page on" id="page-dashboard">
         <div class="ph">
-          <div><h2>Dashboard</h2><p id="dash-date">Monday, 29 June 2026</p></div>
+          <div><h2>Dashboard</h2><p id="dash-date"></p></div>
           <div class="ph-actions">
             <button class="btn btn-gold" onclick="openEntry()">+ New Entry</button>
             <button class="btn btn-navy" onclick="nav('report')">📊 Statement</button>
           </div>
         </div>
-        <div class="kpis" id="kpis">
-    <div class="kpi"><div class="kpi-lbl">Net Balance</div><div class="kpi-val">AED 90,465.09</div><div class="kpi-sub">1 accounts</div></div>
-    <div class="kpi k-green"><div class="kpi-lbl">Debits This Month</div><div class="kpi-val">AED 0.00</div><div class="kpi-sub">Received / settled</div></div>
-    <div class="kpi k-red"><div class="kpi-lbl">Credits This Month</div><div class="kpi-val">AED 90,465.09</div><div class="kpi-sub">Sent out / receivable</div></div>
-    <div class="kpi k-blue"><div class="kpi-lbl">Pending Expenses</div><div class="kpi-val">AED 0.00</div><div class="kpi-sub">Awaiting reimbursement</div></div></div>
+        <div class="kpis" id="kpis"></div>
         <div class="g2">
           <div class="card">
-            <div class="card-hd"><h3>Recent Entries</h3><span class="text-sm" id="recent-count">1 total</span></div>
-            <div class="card-body" id="recent-entries"><div class="stat-row">
-      <div>
-        <div style="font-weight:700;font-size:12px">INDIAN 3,822,150 @ 42.25 — MOOSA GREECE</div>
-        <div class="text-sm">Moosa Greece • — • 2026-06-29</div>
-      </div>
-      <div class="num amt-cr">(AED 90,465.09)</div>
-    </div></div>
+            <div class="card-hd"><h3>Recent Entries</h3><span class="text-sm" id="recent-count"></span></div>
+            <div class="card-body" id="recent-entries"></div>
           </div>
           <div class="card">
             <div class="card-hd"><h3>Account Balances</h3></div>
-            <div class="card-body" id="dash-balances"><div class="stat-row">
-      <div><div style="font-weight:700;font-size:12px">Moosa Greece</div><div class="text-sm">exchange • Opening: AED 0.00</div></div>
-      <div style="text-align:right">
-        <div class="num bal-neg" style="font-weight:800">(AED 90,465.09)</div>
-      </div>
-    </div></div>
+            <div class="card-body" id="dash-balances"></div>
           </div>
         </div>
       </div>
@@ -280,21 +267,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           <div><h2>Accounts</h2><p>Manage all ledger accounts</p></div>
           <button class="btn btn-gold" onclick="openModal('mo-account')">+ Add Account</button>
         </div>
-        <div class="ac-grid" id="ac-grid"><div class="ac-card t-exchange">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;cursor:pointer" onclick="openAccountDetail('mqz1j28siur')">
-        <div><div class="ac-name">Moosa Greece</div><div class="ac-type-lbl">exchange</div></div>
-        <span class="bdg bdg-gold">AED</span>
-      </div>
-      <div class="ac-bal" style="cursor:pointer" onclick="openAccountDetail('mqz1j28siur')"><span class="bal-neg">(AED 90,465.09)</span></div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px;margin-bottom:.6rem">Opening: AED 0.00</div>
-      <div style="display:flex;gap:.4rem;border-top:1px solid var(--border);padding-top:.6rem;margin-top:auto">
-        <button class="btn btn-gold" style="flex:1;padding:5px 0;font-size:11px" onclick="event.stopPropagation();openEntry('mqz1j28siur')">+ Add Entry</button>
-        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11px" onclick="event.stopPropagation();filterLedgerByAccount('mqz1j28siur')">📋 Ledger</button>
-        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11px" onclick="event.stopPropagation();openAccountDetail('mqz1j28siur')">⋯</button>
-      </div>
-    </div><div class="ac-card" style="border:2px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:var(--muted);cursor:pointer;min-height:110px" onclick="resetAccountModal();openModal('mo-account')">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-    <span style="font-size:12px;font-weight:700">Add Account</span></div></div>
+        <div class="ac-grid" id="ac-grid"></div>
       </div>
 
       <!-- ── LEDGER ENTRIES ── -->
@@ -307,8 +280,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           </div>
         </div>
         <div class="filters">
-          <div class="srch"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="le-srch" placeholder="Search description / V.No…" oninput="renderLedger()"></div>
-          <select id="le-ac" onchange="renderLedger()"><option value="">All Accounts</option><option value="mqz1j28siur">Moosa Greece</option></select>
+          <div class="srch"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="le-srch" placeholder="Search description / V.No…" oninput="renderLedger()"></div>
+          <select id="le-ac" onchange="renderLedger()"><option value="">All Accounts</option></select>
           <select id="le-type" onchange="renderLedger()"><option value="">All Types</option><option value="debit">Debit</option><option value="credit">Credit</option></select>
           <input type="date" id="le-from" onchange="renderLedger()" style="width:auto">
           <input type="date" id="le-to" onchange="renderLedger()" style="width:auto">
@@ -321,27 +294,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
                 <th>Account</th><th class="r">Foreign Amt</th><th class="r">Rate</th>
                 <th class="r" style="color:var(--green)">Debit (AED)</th><th class="r" style="color:var(--red)">Credit (AED)</th><th class="r">Balance</th><th></th>
               </tr></thead>
-              <tbody id="le-body"><tr>
-      <td class="dt">29 Jun 2026 21:53</td>
-      <td><span class="vno">—</span></td>
-      <td class="desc-cell">INDIAN 3,822,150 @ 42.25 — MOOSA GREECE</td>
-      <td><span class="bdg bdg-blue">Moosa Greece</span></td>
-      <td class="r num">3,822,150</td>
-      <td class="r num">42.25</td>
-      <td class="r num amt-dr">—</td>
-      <td class="r num amt-cr">AED 90,465.09</td>
-      <td class="r num">(<span style="color:var(--red);font-weight:800">AED 90,465.09</span>)</td>
-      <td style="white-space:nowrap">
-        <button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editEntry('mqz1jmrx9m6')">✏</button>
-        <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delEntry('mqz1jmrx9m6')">×</button>
-      </td>
-    </tr><tr class="tot">
-    <td colspan="3" style="text-align:right;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding-right:1rem">TOTAL ••••••••••••••••••••••••••&gt;</td>
-    <td></td><td></td>
-    <td class="r num">AED 0.00</td>
-    <td class="r num">AED 90,465.09</td>
-    <td class="r num">(<span style="color:var(--red);font-weight:800">AED 90,465.09</span>)</td>
-    <td></td></tr></tbody>
+              <tbody id="le-body"></tbody>
             </table>
           </div>
         </div>
@@ -352,57 +305,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
         <div class="ph no-print">
           <div><h2>Statement Report</h2><p>Printable ledger statement</p></div>
           <div class="ph-actions">
-            <select id="rpt-ac" onchange="renderReport()" style="width:200px"><option value="">All Accounts</option><option value="mqz1j28siur">Moosa Greece</option></select>
+            <select id="rpt-ac" onchange="renderReport()" style="width:200px"><option value="">All Accounts</option></select>
             <input type="date" id="rpt-from" onchange="renderReport()" style="width:auto">
             <input type="date" id="rpt-to" onchange="renderReport()" style="width:auto">
             <button class="btn btn-gold print-btn" onclick="window.print()">🖨️ Print</button>
           </div>
         </div>
-        <div id="rpt-container">
-  <div class="rpt-wrap">
-    <div class="rpt-hd">
-      <h1>STATEMENT OF ALL ACCOUNTS</h1>
-      <p>01 Jan 2026 — 29 Jun 2026</p>
-    </div>
-    <div class="tbl-wrap">
-    <table class="ledger" style="border-top:2px solid var(--navy)">
-      <thead>
-        <tr>
-          <th style="min-width:130px">DATE</th>
-          <th style="min-width:100px">V. NO</th>
-          <th style="min-width:280px">DESCRIPTION</th>
-          <th class="r" style="min-width:90px">AMOUNT</th>
-          <th class="r" style="min-width:60px">RATE</th>
-          <th class="r" style="min-width:110px;color:var(--green)">DEBIT</th>
-          <th class="r" style="min-width:110px;color:var(--red)">CREDIT</th>
-          <th class="r" style="min-width:120px">BALANCE</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td colspan="8" style="padding:3px 8px;font-style:italic;font-size:11px;color:var(--muted)">— Opening —</td></tr>
-        <tr>
-      <td class="dt" style="white-space:nowrap;font-size:11px">29 Jun 2026 21:53</td>
-      <td><span class="vno">—</span></td>
-      <td class="desc-cell">INDIAN 3,822,150 @ 42.25 — MOOSA GREECE</td>
-      <td class="r num">3,822,150</td>
-      <td class="r num">42.25</td>
-      <td class="r num ">—</td>
-      <td class="r num amt-cr">90,465.09</td>
-      <td class="r num bal-neg" style="font-weight:800">(90,465.09)</td>
-    </tr>
-      </tbody>
-      <tfoot>
-        <tr class="tot">
-          <td colspan="3" style="text-align:right;font-size:10px;letter-spacing:.5px;text-transform:uppercase">TOTAL ••••••••••••••••••••••••••••••••••&gt;</td>
-          <td></td><td></td>
-          <td class="r num">0.00</td>
-          <td class="r num">90,465.09</td>
-          <td class="r num" style="font-weight:800;color:var(--red)">(90,465.09)</td>
-        </tr>
-      </tfoot>
-    </table>
-    </div>
-  </div></div>
+        <div id="rpt-container"></div>
       </div>
 
       <!-- ── TRANSFERS ── -->
@@ -415,7 +324,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           <div class="tbl-wrap">
             <table class="ledger">
               <thead><tr><th>Date</th><th>From Account</th><th>To Account</th><th class="r">Amount Sent</th><th class="r">Amount Received</th><th class="r">Rate</th><th>Reference</th><th></th></tr></thead>
-              <tbody id="tr-body"><tr><td colspan="8"><div class="empty">No transfers yet</div></td></tr></tbody>
+              <tbody id="tr-body"></tbody>
             </table>
           </div>
         </div>
@@ -436,7 +345,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           <div class="tbl-wrap">
             <table class="ledger">
               <thead><tr><th>Date</th><th>Description</th><th>Business</th><th>Category</th><th>Paid From</th><th class="r">Amount</th><th class="r">AED Equiv.</th><th>Status</th><th></th></tr></thead>
-              <tbody id="ex-body"><tr><td colspan="9"><div class="empty">No expenses</div></td></tr></tbody>
+              <tbody id="ex-body"></tbody>
             </table>
           </div>
         </div>
@@ -452,78 +361,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           <div class="tbl-wrap">
             <table class="ledger">
               <thead><tr><th>Name</th><th>Code</th><th>Symbol</th><th class="r">Rate (1 AED = ?)</th><th>Updated</th><th></th></tr></thead>
-              <tbody id="cur-body"><tr>
-    <td><strong>UAE Dirham</strong></td>
-    <td><span class="bdg bdg-blue">AED</span></td>
-    <td style="font-size:16px">د.إ</td>
-    <td class="r num"><span class="bdg bdg-gold">Base</span></td>
-    <td class="text-sm">2026-01-01</td>
-    <td>
-    </td>
-  </tr><tr>
-    <td><strong>Indian Rupee</strong></td>
-    <td><span class="bdg bdg-blue">INR</span></td>
-    <td style="font-size:16px">₹</td>
-    <td class="r num">1 AED = ₹22.5</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c1')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c1')">×</button>
-    </td>
-  </tr><tr>
-    <td><strong>Euro</strong></td>
-    <td><span class="bdg bdg-blue">EUR</span></td>
-    <td style="font-size:16px">€</td>
-    <td class="r num">1 AED = €0.253</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c2')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c2')">×</button>
-    </td>
-  </tr><tr>
-    <td><strong>US Dollar</strong></td>
-    <td><span class="bdg bdg-blue">USD</span></td>
-    <td style="font-size:16px">$</td>
-    <td class="r num">1 AED = $0.272</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c3')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c3')">×</button>
-    </td>
-  </tr><tr>
-    <td><strong>Pakistani Rupee</strong></td>
-    <td><span class="bdg bdg-blue">PKR</span></td>
-    <td style="font-size:16px">₨</td>
-    <td class="r num">1 AED = ₨75.8</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c4')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c4')">×</button>
-    </td>
-  </tr><tr>
-    <td><strong>British Pound</strong></td>
-    <td><span class="bdg bdg-blue">GBP</span></td>
-    <td style="font-size:16px">£</td>
-    <td class="r num">1 AED = £0.217</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c5')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c5')">×</button>
-    </td>
-  </tr><tr>
-    <td><strong>Saudi Riyal</strong></td>
-    <td><span class="bdg bdg-blue">SAR</span></td>
-    <td style="font-size:16px">﷼</td>
-    <td class="r num">1 AED = ﷼1.02</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c6')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c6')">×</button>
-    </td>
-  </tr><tr>
-    <td><strong>Nepali Rupee</strong></td>
-    <td><span class="bdg bdg-blue">NPR</span></td>
-    <td style="font-size:16px">रू</td>
-    <td class="r num">1 AED = रू36</td>
-    <td class="text-sm">2026-01-01</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editCur('c7')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delCur('c7')">×</button>
-    </td>
-  </tr></tbody>
+              <tbody id="cur-body"></tbody>
             </table>
           </div>
         </div>
@@ -542,40 +380,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           <div class="tbl-wrap">
             <table class="ledger">
               <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Last Login</th><th></th></tr></thead>
-              <tbody id="usr-body"><tr>
-    <td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:26px;height:26px;font-size:10px">M</div><strong>Moosa Sb</strong></div></td>
-    <td><span class="bdg bdg-gray">@Moosa_SB</span></td>
-    <td><span class="bdg bdg-blue">accountant</span></td>
-    <td><span class="bdg bdg-green">active</span></td>
-    <td class="text-sm">29/06/2026</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editUser('mqz1n4if1s5')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delUser('mqz1n4if1s5')">×</button>
-    </td>
-  </tr><tr>
-    <td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:26px;height:26px;font-size:10px">A</div><strong>Admin</strong></div></td>
-    <td><span class="bdg bdg-gray">@admin</span></td>
-    <td><span class="bdg bdg-gold">admin</span></td>
-    <td><span class="bdg bdg-green">active</span></td>
-    <td class="text-sm">29/06/2026</td>
-    <td>
-    </td>
-  </tr><tr>
-    <td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:26px;height:26px;font-size:10px">M</div><strong>Moosa SB</strong></div></td>
-    <td><span class="bdg bdg-gray">@Moosa</span></td>
-    <td><span class="bdg bdg-blue">accountant</span></td>
-    <td><span class="bdg bdg-green">active</span></td>
-    <td class="text-sm">Never</td>
-    <td><button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="editUser('mqz2i9g49bu')">Edit</button>
-       <button class="btn btn-red" style="padding:2px 6px;font-size:11px;margin-left:2px" onclick="delUser('mqz2i9g49bu')">×</button>
-    </td>
-  </tr></tbody>
+              <tbody id="usr-body"></tbody>
             </table>
           </div>
         </div>
       </div>
 
       <!-- ── CLOUD SYNC ── -->
-      <div class="page on" id="page-sync">
+      <div class="page" id="page-sync">
         <div class="ph">
           <div><h2>Cloud Sync — Supabase</h2><p>Connect to Supabase for real-time backup across all devices</p></div>
           <div class="ph-actions">
@@ -585,7 +397,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
 
         <!-- Connection config -->
         <div class="card" style="max-width:620px;margin-bottom:1.2rem" id="sync-config-card">
-          <div class="card-hd"><h3>Supabase Connection</h3><span id="sync-status-badge" class="bdg bdg-green">Synced ✓</span></div>
+          <div class="card-hd"><h3>Supabase Connection</h3><span id="sync-status-badge" class="bdg bdg-gray">Not Connected</span></div>
           <div class="card-body">
             <div class="fld">
               <label>Project URL <span style="font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">— from Supabase → Settings → API</span></label>
@@ -616,7 +428,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
           <div class="card-hd"><h3>Sync Log</h3><button class="btn btn-ghost" style="padding:3px 8px;font-size:11px" onclick="document.getElementById('sync-log').innerHTML=''">Clear</button></div>
           <div class="card-body" id="sync-log" style="font-size:12px;font-family:monospace;max-height:300px;overflow-y:auto;line-height:1.8">
             <span style="color:var(--muted)">— No sync activity yet —</span>
-          <div style="color:var(--blue)"><span style="color:var(--muted)">[15:29:58]</span> Starting full sync to Supabase…</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> ✓ Users (3)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> ✓ Accounts (1)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> ✓ Currencies (8)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> ✓ Entries (1)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> ✓ Transfers (0)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> ✓ Expenses (0)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:29:59]</span> All data synced to Supabase successfully!</div><div style="color:var(--blue)"><span style="color:var(--muted)">[15:33:20]</span> Starting full sync to Supabase…</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:20]</span> ✓ Users (3)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:21]</span> ✓ Accounts (1)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:21]</span> ✓ Currencies (8)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:21]</span> ✓ Entries (1)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:21]</span> ✓ Transfers (0)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:21]</span> ✓ Expenses (0)</div><div style="color:var(--green)"><span style="color:var(--muted)">[15:33:21]</span> All data synced to Supabase successfully!</div><div style="color:var(--blue)"><span style="color:var(--muted)">[15:33:22]</span> Generating updated file with keys embedded…</div></div>
+          </div>
         </div>
       </div>
 
@@ -625,7 +437,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
 </div><!-- /app -->
 
 <!-- TOASTER -->
-<div class="toaster" id="toaster"><div class="toast ok">Synced to cloud ✓</div></div>
+<div class="toaster" id="toaster"></div>
 
 <!-- ══════════════ MODALS ══════════════ -->
 
@@ -639,11 +451,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
         <div class="fld"><label>Date &amp; Time</label><input type="datetime-local" id="en-dt"></div>
         <div class="fld"><label>Voucher No</label><input type="text" id="en-vno" placeholder="e.g. DE-0098112"></div>
       </div>
-      <div class="fld"><label>Account</label><select id="en-ac" onchange="autoDesc()"><option value="mqz1j28siur">Moosa Greece</option></select></div>
-      <div class="fld"><label>Description <span style="font-size:10px;font-weight:400;color:var(--gold);text-transform:none;letter-spacing:0">✦ auto-fills from fields above</span></label><textarea id="en-desc" rows="2" placeholder="Fill amount &amp; currency above to auto-generate..." oninput="_lastAutoDesc=''"></textarea></div>
+      <div class="fld"><label>Account</label><select id="en-ac" onchange="autoDesc()"></select></div>
+      <div class="fld"><label>Description <span style="font-size:10px;font-weight:400;color:var(--gold);text-transform:none;letter-spacing:0">✦ auto-fills from fields above</span></label><textarea id="en-desc" rows="2" placeholder="Fill amount & currency above to auto-generate..." oninput="_lastAutoDesc=''"></textarea></div>
       <div class="g3">
         <div class="fld"><label>Foreign Amount</label><input type="number" id="en-famount" placeholder="0.00" step="0.01" oninput="calcAED()"></div>
-        <div class="fld"><label>Currency</label><select id="en-cur" onchange="pickCurrency();calcAED();autoDesc()"><option value="AED">AED — UAE Dirham</option><option value="INR">INR — Indian Rupee</option><option value="EUR">EUR — Euro</option><option value="USD">USD — US Dollar</option><option value="PKR">PKR — Pakistani Rupee</option><option value="GBP">GBP — British Pound</option><option value="SAR">SAR — Saudi Riyal</option><option value="NPR">NPR — Nepali Rupee</option></select></div>
+        <div class="fld"><label>Currency</label><select id="en-cur" onchange="pickCurrency();calcAED();autoDesc()"></select></div>
         <div class="fld"><label>Rate (to AED)</label><input type="number" id="en-rate" placeholder="1.0000" step="0.0001" oninput="calcAED();autoDesc()"></div>
       </div>
       <div class="g2">
@@ -685,7 +497,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
             <option value="customer">Customer Account</option>
           </select>
         </div>
-        <div class="fld"><label>Base Currency</label><select id="ac-cur"><option value="AED">AED — UAE Dirham</option><option value="INR">INR — Indian Rupee</option><option value="EUR">EUR — Euro</option><option value="USD">USD — US Dollar</option><option value="PKR">PKR — Pakistani Rupee</option><option value="GBP">GBP — British Pound</option><option value="SAR">SAR — Saudi Riyal</option><option value="NPR">NPR — Nepali Rupee</option></select></div>
+        <div class="fld"><label>Base Currency</label><select id="ac-cur"></select></div>
       </div>
       <div class="fld"><label>Opening Balance (AED)</label><input type="number" id="ac-bal" placeholder="0.00" step="0.01"></div>
       <div class="fld"><label>Description / Notes</label><textarea id="ac-notes" rows="2" placeholder="Optional"></textarea></div>
@@ -704,14 +516,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
     <div class="mbd">
       <input type="hidden" id="tr-id">
       <div class="g2">
-        <div class="fld"><label>From Account</label><select id="tr-from"><option value="mqz1j28siur">Moosa Greece</option></select></div>
-        <div class="fld"><label>To Account</label><select id="tr-to"><option value="mqz1j28siur">Moosa Greece</option></select></div>
+        <div class="fld"><label>From Account</label><select id="tr-from"></select></div>
+        <div class="fld"><label>To Account</label><select id="tr-to"></select></div>
       </div>
       <div class="g2">
         <div class="fld"><label>Amount Sent</label><input type="number" id="tr-af" placeholder="0.00" step="0.01" oninput="calcTrRate()"></div>
         <div class="fld"><label>Amount Received</label><input type="number" id="tr-at" placeholder="0.00" step="0.01" oninput="calcTrRate()"></div>
       </div>
-      <div class="fld"><label>Exchange Rate</label><input type="number" id="tr-rate" readonly="" style="background:var(--surf2);color:var(--muted)"></div>
+      <div class="fld"><label>Exchange Rate</label><input type="number" id="tr-rate" readonly style="background:var(--surf2);color:var(--muted)"></div>
       <div class="g2">
         <div class="fld"><label>Date</label><input type="date" id="tr-dt"></div>
         <div class="fld"><label>Reference</label><input type="text" id="tr-ref" placeholder="Optional"></div>
@@ -734,11 +546,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
       <div class="fld"><label>Business Name</label><input type="text" id="ex-biz-val" placeholder="Business this is for" list="biz-dl"><datalist id="biz-dl"></datalist></div>
       <div class="g2">
         <div class="fld"><label>Category</label><select id="ex-cat-val"><option>Office</option><option>Travel</option><option>Marketing</option><option>Utilities</option><option>Salaries</option><option>Other</option></select></div>
-        <div class="fld"><label>Paid From Account</label><select id="ex-ac"><option value="mqz1j28siur">Moosa Greece</option></select></div>
+        <div class="fld"><label>Paid From Account</label><select id="ex-ac"></select></div>
       </div>
       <div class="g2">
         <div class="fld"><label>Amount</label><input type="number" id="ex-amt" placeholder="0.00" step="0.01"></div>
-        <div class="fld"><label>Currency</label><select id="ex-cur"><option value="AED">AED — UAE Dirham</option><option value="INR">INR — Indian Rupee</option><option value="EUR">EUR — Euro</option><option value="USD">USD — US Dollar</option><option value="PKR">PKR — Pakistani Rupee</option><option value="GBP">GBP — British Pound</option><option value="SAR">SAR — Saudi Riyal</option><option value="NPR">NPR — Nepali Rupee</option></select></div>
+        <div class="fld"><label>Currency</label><select id="ex-cur"></select></div>
       </div>
       <div class="g2">
         <div class="fld"><label>Date</label><input type="date" id="ex-dt"></div>
@@ -918,14 +730,40 @@ function computeBalance(acId){
 // ═══════════════════════════════════════
 // AUTH
 // ═══════════════════════════════════════
-function doLogin(){
+async function doLogin(){
   const u=document.getElementById('li-u').value.trim();
   const p=document.getElementById('li-p').value;
-  const user=DB.users.find(x=>x.username===u&&x.password===p&&x.status==='active');
   const err=document.getElementById('li-err');
-  if(!user){ err.textContent='Invalid username or password.'; err.style.display='block'; return; }
+  const btn=document.querySelector('#auth .btn-gold');
   err.style.display='none';
+
+  // If Supabase is configured, fetch live users first so ANY browser
+  // always authenticates against the cloud user list (not just local seed)
+  if(SB_URL && SB_KEY){
+    if(btn){ btn.textContent='Checking…'; btn.disabled=true; }
+    try{
+      const cloudUsers = await sbFetch('baw_users');
+      if(cloudUsers && cloudUsers.length>0){
+        // Merge cloud users into local DB (cloud is always authoritative for users)
+        DB.users = cloudUsers.map(u=>({
+          id:u.id, name:u.name, username:u.username, password:u.password,
+          role:u.role, status:u.status, lastLogin:u.last_login||null
+        }));
+        localStorage.setItem('bawabat4_db', JSON.stringify(DB));
+      }
+    }catch(e){
+      console.warn('Could not fetch cloud users, using local:', e.message);
+    }finally{
+      if(btn){ btn.textContent='Sign In →'; btn.disabled=false; }
+    }
+  }
+
+  const user=DB.users.find(x=>x.username===u&&x.password===p&&x.status==='active');
+  if(!user){ err.textContent='Invalid username or password.'; err.style.display='block'; return; }
+
   CU=user; user.lastLogin=new Date().toISOString(); saveDB();
+  // Save session so same tab survives refresh (clears on browser/tab close)
+  sessionStorage.setItem('baw_session', JSON.stringify({id:user.id}));
   document.getElementById('auth').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('sb-av').textContent=user.name[0].toUpperCase();
@@ -934,7 +772,6 @@ function doLogin(){
   document.getElementById('nav-users').style.display=user.role==='admin'?'flex':'none';
   document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   renderAll();
-  // ── Cloud sync flow after login ──
   postLoginSync(user);
 }
 
@@ -968,7 +805,7 @@ async function silentPull(){
     console.warn('Silent pull failed:',e.message);
   }
 }
-function doLogout(){ CU=null; document.getElementById('auth').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('li-p').value=''; }
+function doLogout(){ CU=null; sessionStorage.removeItem('baw_session'); document.getElementById('auth').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('li-p').value=''; }
 document.addEventListener('keypress',e=>{ if(e.key==='Enter'&&document.getElementById('auth').style.display!=='none') doLogin(); });
 
 // ═══════════════════════════════════════
@@ -1727,8 +1564,8 @@ function toast(msg,type=''){
 // ── SUPABASE CONFIG — Set these once, redeploy ──
 // Fill in your Supabase Project URL and Anon Key below.
 // These are embedded in the file so ALL browsers use them automatically.
-const SB_URL_DEFAULT = 'https://grvvkcopsqcezbhzmpzw.supabase.co';  // e.g. 'https://xxxx.supabase.co'
-const SB_KEY_DEFAULT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdydnZrY29wc3FjZXpiaHptcHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MTM4NjQsImV4cCI6MjA5ODI4OTg2NH0.Q4hmrq2Co0rkUUvpqJ20rZaCTVMJzmBjxb9dvGdBvGg';  // e.g. 'eyJhbGci...'
+const SB_URL_DEFAULT = '';  // e.g. 'https://xxxx.supabase.co'
+const SB_KEY_DEFAULT = '';  // e.g. 'eyJhbGci...'
 
 let SB_URL = SB_URL_DEFAULT;
 let SB_KEY = SB_KEY_DEFAULT;
@@ -1965,8 +1802,37 @@ insert into baw_users (id,name,username,password,role,status) values ('u1','Admi
 // ═══════════════════════════════════════
 loadDB();
 loadSyncConfig();
-document.getElementById('li-u').focus();
+
+// Session check: require fresh login on every new tab/browser session
+// sessionStorage clears when browser/tab is closed
+const _sess = sessionStorage.getItem('baw_session');
+if(_sess){
+  try{
+    const s = JSON.parse(_sess);
+    const user = DB.users.find(u=>u.id===s.id&&u.status==='active');
+    if(user){
+      // Restore session silently
+      CU = user;
+      document.getElementById('auth').style.display='none';
+      document.getElementById('app').style.display='block';
+      document.getElementById('sb-av').textContent=user.name[0].toUpperCase();
+      document.getElementById('sb-nm').textContent=user.name;
+      document.getElementById('sb-role').textContent=user.role==='admin'?'Administrator':user.role==='accountant'?'Accountant':'Viewer';
+      document.getElementById('nav-users').style.display=user.role==='admin'?'flex':'none';
+      document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      renderAll();
+      postLoginSync(user);
+    } else {
+      sessionStorage.removeItem('baw_session');
+      document.getElementById('li-u').focus();
+    }
+  }catch(e){
+    sessionStorage.removeItem('baw_session');
+    document.getElementById('li-u').focus();
+  }
+} else {
+  document.getElementById('li-u').focus();
+}
 </script>
-
-
-</body></html>
+</body>
+</html>
