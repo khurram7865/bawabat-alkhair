@@ -730,13 +730,37 @@ function computeBalance(acId){
 // ═══════════════════════════════════════
 // AUTH
 // ═══════════════════════════════════════
-function doLogin(){
+async function doLogin(){
   const u=document.getElementById('li-u').value.trim();
   const p=document.getElementById('li-p').value;
-  const user=DB.users.find(x=>x.username===u&&x.password===p&&x.status==='active');
   const err=document.getElementById('li-err');
-  if(!user){ err.textContent='Invalid username or password.'; err.style.display='block'; return; }
+  const btn=document.querySelector('#auth .btn-gold');
   err.style.display='none';
+
+  // If Supabase is configured, fetch live users first so ANY browser
+  // always authenticates against the cloud user list (not just local seed)
+  if(SB_URL && SB_KEY){
+    if(btn){ btn.textContent='Checking…'; btn.disabled=true; }
+    try{
+      const cloudUsers = await sbFetch('baw_users');
+      if(cloudUsers && cloudUsers.length>0){
+        // Merge cloud users into local DB (cloud is always authoritative for users)
+        DB.users = cloudUsers.map(u=>({
+          id:u.id, name:u.name, username:u.username, password:u.password,
+          role:u.role, status:u.status, lastLogin:u.last_login||null
+        }));
+        localStorage.setItem('bawabat4_db', JSON.stringify(DB));
+      }
+    }catch(e){
+      console.warn('Could not fetch cloud users, using local:', e.message);
+    }finally{
+      if(btn){ btn.textContent='Sign In →'; btn.disabled=false; }
+    }
+  }
+
+  const user=DB.users.find(x=>x.username===u&&x.password===p&&x.status==='active');
+  if(!user){ err.textContent='Invalid username or password.'; err.style.display='block'; return; }
+
   CU=user; user.lastLogin=new Date().toISOString(); saveDB();
   document.getElementById('auth').style.display='none';
   document.getElementById('app').style.display='block';
@@ -746,7 +770,6 @@ function doLogin(){
   document.getElementById('nav-users').style.display=user.role==='admin'?'flex':'none';
   document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   renderAll();
-  // ── Cloud sync flow after login ──
   postLoginSync(user);
 }
 
