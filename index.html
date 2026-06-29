@@ -183,6 +183,44 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 
   </div>
 </div>
 
+<!-- ═══ SUPABASE FIRST-TIME SETUP MODAL ═══ -->
+<div id="sb-setup-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:#fff;border-radius:18px;width:100%;max-width:460px;box-shadow:0 8px 40px rgba(0,0,0,.18);overflow:hidden">
+    <div style="background:linear-gradient(135deg,#0d1f3c,#162b50);padding:1.5rem 1.5rem 1.2rem;color:#fff">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
+        <div style="width:36px;height:36px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px">☁</div>
+        <div>
+          <div style="font-size:16px;font-weight:800">Connect Cloud Backup</div>
+          <div style="font-size:11px;opacity:.6">Supabase — free, syncs across all devices</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:1.4rem 1.5rem">
+      <p style="font-size:13px;color:#6b7585;margin-bottom:1.1rem;line-height:1.6">
+        Connect once on this device and your data will automatically sync across all browsers and devices. 
+        <strong style="color:#0d1f3c">Other users just need to enter these same credentials on their device.</strong>
+      </p>
+      <div class="fld">
+        <label>Supabase Project URL</label>
+        <input type="text" id="setup-sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co">
+      </div>
+      <div class="fld">
+        <label>Anon / Public Key</label>
+        <input type="password" id="setup-sb-key" placeholder="eyJhbGciOiJIUzI1NiIs...">
+        <div style="font-size:11px;color:#9ea8b8;margin-top:4px">Found in Supabase → Settings → API</div>
+      </div>
+      <div id="setup-test-result" style="font-size:12px;padding:6px 10px;border-radius:6px;display:none;margin-bottom:.75rem"></div>
+    </div>
+    <div style="padding:0 1.5rem 1.4rem;display:flex;gap:.5rem;flex-wrap:wrap">
+      <button class="btn btn-gold" style="flex:1" onclick="setupTestAndSave()">Test &amp; Connect</button>
+      <button class="btn btn-ghost" onclick="setupSkip()" style="flex:1">Skip for now</button>
+    </div>
+    <div style="padding:.6rem 1.5rem .9rem;border-top:1px solid #f0f2f5;text-align:center">
+      <span style="font-size:11px;color:#9ea8b8">You can connect later via Settings → Cloud Sync</span>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ APP ═══ -->
 <div id="app">
   <div class="shell">
@@ -746,6 +784,42 @@ function doLogin(){
   document.getElementById('nav-users').style.display=user.role==='admin'?'flex':'none';
   document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   renderAll();
+  // ── Cloud sync flow after login ──
+  postLoginSync(user);
+}
+
+async function postLoginSync(user){
+  const hasCfg = SB_URL && SB_KEY;
+  if(user.role==='admin' && !hasCfg){
+    // Admin on unconfigured browser → show setup modal
+    document.getElementById('sb-setup-overlay').style.display='flex';
+  } else if(hasCfg){
+    // Any user on configured browser → silently pull latest data from cloud
+    silentPull();
+  }
+  // No config + not admin → just use local data, no prompt
+}
+
+async function silentPull(){
+  try{
+    const [users,accounts,currencies,entries,transfers,expenses]=await Promise.all([
+      sbFetch('baw_users'),sbFetch('baw_accounts'),sbFetch('baw_currencies'),
+      sbFetch('baw_entries'),sbFetch('baw_transfers'),sbFetch('baw_expenses')
+    ]);
+    if(!entries) return; // empty / error
+    DB.users=users.map(u=>({id:u.id,name:u.name,username:u.username,password:u.password,role:u.role,status:u.status,lastLogin:u.last_login||null}));
+    DB.accounts=accounts.map(a=>({id:a.id,name:a.name,type:a.type,currency:a.currency,initBal:parseFloat(a.init_bal)||0,notes:a.notes||''}));
+    DB.currencies=currencies.map(c=>({id:c.id,name:c.name,code:c.code,symbol:c.symbol,rate:parseFloat(c.rate)||1,updatedAt:c.updated_at||''}));
+    DB.entries=entries.map(e=>({id:e.id,dt:e.dt,vno:e.vno||'',acId:e.ac_id,desc:e.description,fAmt:parseFloat(e.f_amt)||0,cur:e.cur,rate:parseFloat(e.rate)||1,aed:parseFloat(e.aed)||0,type:e.type,ref:e.ref||''}));
+    DB.transfers=transfers.map(t=>({id:t.id,from:t.from_ac,to:t.to_ac,af:parseFloat(t.amount_from),at:parseFloat(t.amount_to),rate:parseFloat(t.rate)||1,dt:t.dt,ref:t.ref||''}));
+    DB.expenses=expenses.map(e=>({id:e.id,desc:e.description,biz:e.business,cat:e.category,acId:e.ac_id,amt:parseFloat(e.amount),cur:e.cur,dt:e.dt,status:e.status,notes:e.notes||''}));
+    localStorage.setItem('bawabat4_db',JSON.stringify(DB));
+    renderAll();
+    toast('Data synced from cloud ✓','ok');
+  }catch(e){
+    // Silent fail — just use local data
+    console.warn('Silent pull failed:',e.message);
+  }
 }
 function doLogout(){ CU=null; document.getElementById('auth').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('li-p').value=''; }
 document.addEventListener('keypress',e=>{ if(e.key==='Enter'&&document.getElementById('auth').style.display!=='none') doLogin(); });
@@ -1698,6 +1772,53 @@ insert into baw_users (id,name,username,password,role,status) values ('u1','Admi
   a.download='bawabat_schema.sql';
   a.click();
   logSync('Schema SQL downloaded','ok');
+}
+
+// ═══════════════════════════════════════
+// SETUP MODAL FUNCTIONS
+// ═══════════════════════════════════════
+async function setupTestAndSave(){
+  const url=(document.getElementById('setup-sb-url').value||'').trim();
+  const key=(document.getElementById('setup-sb-key').value||'').trim();
+  const res=document.getElementById('setup-test-result');
+  if(!url||!key){
+    res.style.display='block'; res.style.background='#fdeaea'; res.style.color='#b33232';
+    res.textContent='Please enter both Project URL and Anon Key.'; return;
+  }
+  res.style.display='block'; res.style.background='#e5f0fb'; res.style.color='#1a5faa';
+  res.textContent='Testing connection…';
+  try{
+    const r=await fetch(`${url}/rest/v1/baw_currencies?select=code&limit=1`,{
+      headers:{'apikey':key,'Authorization':'Bearer '+key}
+    });
+    if(r.ok){
+      // Save config
+      SB_URL=url; SB_KEY=key;
+      localStorage.setItem('bawabat_sb_cfg',JSON.stringify({url:SB_URL,key:SB_KEY}));
+      updateSyncDot();
+      // Update the Cloud Sync page inputs too
+      const u=document.getElementById('sb-url'); if(u) u.value=SB_URL;
+      const k=document.getElementById('sb-key'); if(k) k.value=SB_KEY;
+      res.style.background='#e6f5ee'; res.style.color='#1a7a4a';
+      res.textContent='✓ Connected! Syncing data now…';
+      setTimeout(()=>{
+        document.getElementById('sb-setup-overlay').style.display='none';
+        syncAll();
+      },1200);
+    } else {
+      const err=await r.text();
+      res.style.background='#fdeaea'; res.style.color='#b33232';
+      res.textContent='Connection failed: '+r.status+' — check your URL and key.';
+    }
+  }catch(e){
+    res.style.background='#fdeaea'; res.style.color='#b33232';
+    res.textContent='Error: '+e.message;
+  }
+}
+
+function setupSkip(){
+  document.getElementById('sb-setup-overlay').style.display='none';
+  toast('Cloud sync skipped — configure later in Settings → Cloud Sync');
 }
 
 // ═══════════════════════════════════════
