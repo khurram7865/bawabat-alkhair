@@ -669,7 +669,14 @@ function resetAllData(){
   saveDB(); renderAll();
   toast('All data cleared — starting fresh','ok');
 }
-function saveDB(){ localStorage.setItem('bawabat4_db',JSON.stringify(DB)); }
+function saveDB(){
+  localStorage.setItem('bawabat4_db',JSON.stringify(DB));
+  // Auto-sync to Supabase 3 seconds after any save (debounced)
+  if(typeof SB_URL!=='undefined'&&SB_URL&&SB_KEY){
+    clearTimeout(autoSyncTimer);
+    autoSyncTimer=setTimeout(()=>syncAll(),3000);
+  }
+}
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
 
 // ═══════════════════════════════════════
@@ -1644,16 +1651,8 @@ async function pullFromCloud(){
   }
 }
 
-// Auto-sync after every save (debounced 3 seconds)
+// Auto-sync timer (used by saveDB below)
 let autoSyncTimer=null;
-const _origSaveDB=saveDB;
-function saveDB(){
-  _origSaveDB();
-  if(SB_URL&&SB_KEY){
-    clearTimeout(autoSyncTimer);
-    autoSyncTimer=setTimeout(()=>{ syncAll(); },3000);
-  }
-}
 
 // Download the schema SQL file
 function downloadSchema(){
